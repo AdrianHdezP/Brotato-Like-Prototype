@@ -16,4 +16,4 @@ MonoBehaviour:
   itemImage: {fileID: 0}
   itemName: Health
   itemDescription: Increase max health in 5
-  buyAction: 1
+  buyAction: 2

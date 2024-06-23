@@ -68,7 +68,10 @@ public class Player : MonoBehaviour
     private void InputCheck()
     {
         if (!playerStats.canMove)
+        {
+            SetZeroVelocity();
             return;
+        }
 
         xInput = Input.GetAxisRaw("Horizontal");
         yInput = Input.GetAxisRaw("Vertical");

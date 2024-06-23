@@ -1,12 +1,21 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using UnityEngine;
+
+public enum WeaponType
+{
+    pistol,
+    rifle,
+}
 
 public class Weapon : MonoBehaviour
 {
     private SpriteRenderer sr;
 
     [Header("Weapon Config")]
+    public WeaponType weaponType;
+    [SerializeField] private Sprite[] weaponSprite;
     [SerializeField] private GameObject muzzle;
     [SerializeField] private GameObject bulletPrefab;
     [SerializeField] private Transform bulletSpawnPos;
@@ -26,6 +35,22 @@ public class Weapon : MonoBehaviour
         AimToMousePosition();
         Shoot();
         Flip();
+    }
+
+    public void ChangeWeapon(WeaponType weaponToChange)
+    {
+        switch (weaponToChange)
+        {
+            case WeaponType.pistol:
+                weaponType = WeaponType.pistol;
+                sr.sprite = weaponSprite[0];
+                break;
+
+            case WeaponType.rifle:
+                weaponType = WeaponType.rifle;
+                sr.sprite = weaponSprite[2];
+                break;
+        }
     }
 
     private void CalculateDirection()
@@ -70,10 +95,22 @@ public class Weapon : MonoBehaviour
         if (!WaveManager.Instance.isInRound)
             return false;
 
-        if (Time.time > lastShootTime + 1 / PlayerManager.Instance.playerStats.fireRate)
+        if (weaponType == WeaponType.pistol)
         {
-            lastShootTime = Time.time;
-            return true;
+            if (Time.time > lastShootTime + 1 / PlayerManager.Instance.playerStats.fireRate)
+            {
+                lastShootTime = Time.time;
+                return true;
+            }
+        }
+
+        if (weaponType == WeaponType.rifle)
+        {
+            if (Time.time > lastShootTime + 1 / (PlayerManager.Instance.playerStats.fireRate + 1.5f))
+            {
+                lastShootTime = Time.time;
+                return true;
+            }
         }
 
         return false;
@@ -84,9 +121,12 @@ public class Weapon : MonoBehaviour
     {
         if (CanShoot())
         {
-            GameObject bullet = Instantiate(bulletPrefab, bulletSpawnPos.position, Quaternion.identity);
-            bullet.GetComponent<Rigidbody2D>().velocity = direction.normalized * bulletSpeed;
-            StartCoroutine(MuzzleFlash());
+            if (weaponType == WeaponType.pistol || weaponType == WeaponType.rifle)
+            {
+                GameObject bullet = Instantiate(bulletPrefab, bulletSpawnPos.position, Quaternion.identity);
+                bullet.GetComponent<Rigidbody2D>().velocity = direction.normalized * bulletSpeed;
+                StartCoroutine(MuzzleFlash());
+            }   
         }
     }
 

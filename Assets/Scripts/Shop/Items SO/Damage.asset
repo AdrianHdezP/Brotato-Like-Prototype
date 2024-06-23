@@ -16,4 +16,4 @@ MonoBehaviour:
   itemImage: {fileID: 0}
   itemName: Damage
   itemDescription: Add 5 of damage
-  buyAction: 3
+  buyAction: 4

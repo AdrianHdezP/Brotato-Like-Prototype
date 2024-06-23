@@ -16,4 +16,4 @@ MonoBehaviour:
   itemImage: {fileID: 0}
   itemName: Fire Rate
   itemDescription: Increases 10% of fire rate to your weapon
-  buyAction: 4
+  buyAction: 5

@@ -853,6 +853,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8d5e9642dd68ab04ab7cc672b71f7d91, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  weaponType: 0
+  weaponSprite:
+  - {fileID: 21300000, guid: 9ca4293d38d5aee4b9ca1739994d9413, type: 3}
+  - {fileID: 21300000, guid: c95987e73cd265d48971b13966e25396, type: 3}
+  - {fileID: 21300000, guid: 75938ae2b50b9f4429e90fb23486ffd5, type: 3}
   muzzle: {fileID: 543943630}
   bulletPrefab: {fileID: 4689206556589391427, guid: 12738dbfa9dabb643b777b1406b1fd8e, type: 3}
   bulletSpawnPos: {fileID: 746759271}
@@ -2950,6 +2955,7 @@ MonoBehaviour:
   - {fileID: 443179579}
   shopItemSO:
   - {fileID: 11400000, guid: e1bdb29760c5d8a46b06a6facf8e07a0, type: 2}
+  - {fileID: 11400000, guid: c0572988890b136489bf4553cb6c9b36, type: 2}
   - {fileID: 11400000, guid: dceb1eabe16d44a46959a4eab510da33, type: 2}
   - {fileID: 11400000, guid: 04953818acf329a4ea27e46c7ef4380d, type: 2}
   - {fileID: 11400000, guid: 560dbebbaa6af64479909a0b36ecedd1, type: 2}
