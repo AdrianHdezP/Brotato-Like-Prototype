@@ -4,26 +4,25 @@ using UnityEngine;
 
 public class PlayerStats : MonoBehaviour
 {
-    public PlayerStatsSO playerStatsSO;
-
     #region Developer Cheats
 
-    [HideInInspector] public bool INVENCIBILITY_CHEAT;
-    [HideInInspector] public bool INFINITE_MONEY;
+    [Header("Developer Cheats")]
+    public bool INVENCIBILITY_CHEAT;
+    public bool INFINITE_MONEY;
 
     #endregion
 
     #region Variables
 
     [Header("General Config")]
-    [HideInInspector] public int maxHealth;
-    [HideInInspector] public int damage;
+    public int maxHealth;
 
     [Header("Movement Config")]
-    [HideInInspector] public float speed;
+    public float speed;
 
     [Header("Damage Config")]
-    [HideInInspector] public float fireRate;
+    public int damage;
+    public float fireRate;
 
     #endregion
 
@@ -48,7 +47,7 @@ public class PlayerStats : MonoBehaviour
 
         set
         {
-            if (playerStatsSO.INFINITE_MONEY)
+            if (INFINITE_MONEY)
             {
                 money = 9999;
                 return;
@@ -83,16 +82,7 @@ public class PlayerStats : MonoBehaviour
     private void Start()
     {
 
-        #region Setup Stats
-
-        maxHealth = playerStatsSO.maxHealth;
-        damage = playerStatsSO.damage;
-        speed = playerStatsSO.speed;
-        fireRate = playerStatsSO.fireRate;
-
-        #endregion
-
-        #region Setup Variables
+        #region Setup Properties
 
         Money = 0;
         Health = maxHealth;

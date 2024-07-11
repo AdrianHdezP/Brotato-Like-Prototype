@@ -34,6 +34,8 @@ public class Player : MonoBehaviour
 
     #region Variables
 
+    [SerializeField] private GameObject[] weapons;
+
     private float invencibilityTimer;
 
     #endregion
@@ -54,6 +56,8 @@ public class Player : MonoBehaviour
         anim = GetComponentInChildren<Animator>();
 
         stateMachine.Initialize(idleState);
+
+        ChangeWeapons(0);
     }
 
     private void Update()
@@ -64,6 +68,8 @@ public class Player : MonoBehaviour
         FlipController();
         SetInvencibilityToDefalut();
     }
+
+    #region Inputs
 
     private void InputCheck()
     {
@@ -76,6 +82,8 @@ public class Player : MonoBehaviour
         xInput = Input.GetAxisRaw("Horizontal");
         yInput = Input.GetAxisRaw("Vertical");
     }
+
+    #endregion
 
     #region Velocity
 
@@ -125,5 +133,15 @@ public class Player : MonoBehaviour
     }
 
     #endregion
+
+    public void ChangeWeapons(int index)
+    {
+        for (int i = 0; i < weapons.Length; i++)
+        {
+            weapons[i].SetActive(false);
+        }
+
+        weapons[index].SetActive(true);
+    }
 
 }

@@ -23,6 +23,7 @@ public class ShopManager : MonoBehaviour
 
     private Player player;
     private PlayerStats playerStats;
+    private Weapon weapon;
     private WaveManager waveManager;
 
     [Header("Canvas Config")]
@@ -37,6 +38,8 @@ public class ShopManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI fireRateTMP;
 
     [Header("Items Config")]
+    private List<int> itemsID;
+    private List<int> loadItemsID;
     [SerializeField] private ShopItemTemplate[] shopItems;
     [SerializeField] private ShopItemSO[] shopItemSO;
 
@@ -49,8 +52,10 @@ public class ShopManager : MonoBehaviour
     {
         player = PlayerManager.Instance.player;
         playerStats = PlayerManager.Instance.playerStats;
+        weapon = player.GetComponentInChildren<Weapon>();
         waveManager = WaveManager.Instance;
 
+        CheckForDuplicateId();
         SetupButton();
         LoadItems();
     }
@@ -60,6 +65,22 @@ public class ShopManager : MonoBehaviour
         SetupCanvas();
         UpdateStats();
         UpdateMoneyTMP();
+    }
+
+    #region Setup
+
+    private void CheckForDuplicateId()
+    {
+        itemsID = new List<int>();
+        itemsID.Clear();
+
+        for (int i = 0; i < shopItemSO.Length; i++)
+        {
+            if (itemsID.Contains(shopItemSO[i].ID))
+                Debug.LogError("Item ID duplicated");
+            else
+                itemsID.Add(shopItemSO[i].ID);
+        }
     }
 
     private void SetupCanvas()
@@ -78,24 +99,67 @@ public class ShopManager : MonoBehaviour
 
     private void SetupButton() => nextRoundButton.onClick.AddListener(() => waveManager.NextRound());
 
+    #endregion
+
+    #region Update Methods
+
     private void UpdateStats()
     {
         maxHealthTMP.text = "Max Health: " + playerStats.maxHealth;
+
         speedTMP.text = "Speed: " + playerStats.speed;
+
         damageTMP.text = "Damage: " + playerStats.damage;
-        fireRateTMP.text = "Fire Rate: " + playerStats.fireRate;
+
+        switch (weapon.weaponType)
+        {
+            case WeaponType.pistol:
+                fireRateTMP.text = "Fire Rate: " + playerStats.fireRate;
+                break;
+
+            case WeaponType.rifle:
+                fireRateTMP.text = "Fire Rate: " + (playerStats.fireRate + 1.5f);
+                break;
+        }
     }
 
     private void UpdateMoneyTMP() => moneyTMP.text = playerStats.Money + "$";
 
+    #endregion
+
+    #region LoadItems
+
     public void LoadItems()
     {
+        loadItemsID = new List<int>();
+        loadItemsID.Clear();
+
         for (int i = 0; i < shopItems.Length; i++)
         {
             int randomItem = Random.Range(0, shopItemSO.Length);
 
             shopItems[i].shopItemSO = shopItemSO[randomItem];
+
+            CheckForDuplicateItems(i);
         }
     }
+
+    public void CheckForDuplicateItems(int i)
+    {
+        if (loadItemsID.Contains(shopItems[i].shopItemSO.ID))
+        {
+            int randomItem = Random.Range(0, shopItemSO.Length);
+
+            shopItems[i].shopItemSO = shopItemSO[randomItem];
+
+            CheckForDuplicateItems(i);
+        }
+        else
+        {
+            loadItemsID.Add(shopItems[i].shopItemSO.ID);
+        }
+    }
+
+    #endregion
 
 }
