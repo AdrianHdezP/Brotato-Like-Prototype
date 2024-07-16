@@ -1,34 +1,18 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class Player : MonoBehaviour
 {
 
     #region Components
 
-    [HideInInspector] public PlayerStats playerStats;
-
+    public PlayerManager playerManager {  get; private set; }
+    public PlayerInput playerInput { get; private set; }
+    public PlayerStats playerStats { get; private set; }
     public Rigidbody2D rb { get; private set; }
     public Animator anim { get; private set; }
-
-    #endregion
-
-    #region States
-
-    public PlayerStateMachine stateMachine { get; private set; }
-
-    public PlayerIdleState idleState { get; private set; }
-    public PlayerMoveState moveState { get; private set; }
-
-    #endregion
-
-    #region Get Private Set Variables
-
-    public float xInput { get; private set; }
-    public float yInput { get; private set; }
-
-    public bool isFacingRight { get; private set; } = true;
 
     #endregion
 
@@ -40,56 +24,78 @@ public class Player : MonoBehaviour
 
     #endregion
 
-    private void Awake()
-    {
-        stateMachine = new PlayerStateMachine();
+    #region Get Private Set Variables
 
-        idleState = new PlayerIdleState(this, stateMachine, "Idle");
-        moveState = new PlayerMoveState(this, stateMachine, "Move");
-    }
+    public Vector2 moveInput {  get; private set; }
+    public Vector2 aimInput { get; private set; }
+
+    public bool isFacingRight { get; private set; } = true;
+
+    #endregion
+
 
     private void Start()
     {
-        playerStats = GetComponent<PlayerStats>();
-
+        playerManager = PlayerManager.Instance;
+        playerStats = playerManager.playerStats;
+        playerInput = playerManager.playerInput;
         rb = GetComponent<Rigidbody2D>();
         anim = GetComponentInChildren<Animator>();
-
-        stateMachine.Initialize(idleState);
 
         ChangeWeapons(0);
     }
 
     private void Update()
     {
-        stateMachine.currentState.Update();
-
-        InputCheck();
+        InputChecks();
+        Move();
+        Animations();
         FlipController();
         SetInvencibilityToDefalut();
     }
 
     #region Inputs
 
-    private void InputCheck()
+    private void InputChecks()
     {
-        if (!playerStats.canMove)
-        {
-            SetZeroVelocity();
-            return;
-        }
-
-        xInput = Input.GetAxisRaw("Horizontal");
-        yInput = Input.GetAxisRaw("Vertical");
+        moveInput = playerInput.actions["move"].ReadValue<Vector2>();
+        aimInput = playerInput.actions["aim"].ReadValue<Vector2>();
     }
 
     #endregion
 
-    #region Velocity
+    #region Move
 
-    public void SetVelocity(float x, float y) => rb.velocity = new Vector2(x, y).normalized * playerStats.speed;
+    private void Move()
+    {
+        if (!playerStats.canMove)
+        {
+            DontMove();
+            return;
+        }
 
-    public void SetZeroVelocity() => rb.velocity = Vector2.zero;
+        rb.AddForce(new Vector2(moveInput.x, moveInput.y) * playerStats.speed);
+    }
+
+    private void DontMove() => rb.velocity = Vector2.zero;
+
+    #endregion
+
+    #region Animations
+
+    private void Animations()
+    {
+        if (moveInput == Vector2.zero)
+        {
+            anim.SetBool("Idle", true);
+            anim.SetBool("Move", false);
+        }
+        else
+        {
+            anim.SetBool("Idle", false);
+            anim.SetBool("Move", true);
+        }
+    }
 
     #endregion
 
@@ -97,16 +103,33 @@ public class Player : MonoBehaviour
 
     private void FlipController()
     {
-        if (Camera.main.ScreenToWorldPoint(Input.mousePosition).x <= transform.position.x && isFacingRight)
+        if (playerManager.IsKeyboardAndMouseActive())
         {
-            Flip();
-            isFacingRight = false;
+            if (Camera.main.ScreenToWorldPoint(Input.mousePosition).x <= transform.position.x && isFacingRight)
+            {
+                Flip();
+                isFacingRight = false;
+            }
+            else if (Camera.main.ScreenToWorldPoint(Input.mousePosition).x > transform.position.x && !isFacingRight)
+            {
+                Flip();
+                isFacingRight = true;
+            }
         }
-        else if (Camera.main.ScreenToWorldPoint(Input.mousePosition).x > transform.position.x && !isFacingRight)
+
+        if (playerManager.IsGamepadActive())
         {
-            Flip();
-            isFacingRight = true;
-        }
+            if (aimInput.x < 0 && isFacingRight)
+            {
+                Flip();
+                isFacingRight = false;
+            }
+            else if (aimInput.x >= 0 && !isFacingRight)
+            {
+                Flip();
+                isFacingRight = true;
+            }
+        }    
     }
 
     private void Flip() => transform.Rotate(0, 180, 0);

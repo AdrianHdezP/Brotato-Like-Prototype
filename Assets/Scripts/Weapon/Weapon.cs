@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using UnityEngine;
+using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.Users;
 
 public enum WeaponType
 {
@@ -42,8 +44,15 @@ public class Weapon : MonoBehaviour
 
     private void CalculateDirection()
     {
-        direction = Camera.main.ScreenToWorldPoint(Input.mousePosition) - transform.position;
-        direction.Normalize();
+        if (PlayerManager.Instance.IsKeyboardAndMouseActive())
+        {
+            direction = Camera.main.ScreenToWorldPoint(Input.mousePosition) - transform.position;
+            direction.Normalize();
+        }
+        else if (PlayerManager.Instance.IsGamepadActive())
+        {
+            direction = PlayerManager.Instance.player.aimInput.normalized;
+        }  
     }
 
     private void AimToMousePosition()
