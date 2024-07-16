@@ -10,19 +10,16 @@ public class PlayerFX : MonoBehaviour
     private SpriteRenderer weaponSpriteRenderer;
 
     [SerializeField] private Material flashFX;
-    [SerializeField] private GameObject weapon;
+    [SerializeField] private Material weaponDefaultMaterial;
     private Material myMaterial;
-    private Material myWeaponMaterial;
 
     private void Start()
     {
         player = PlayerManager.Instance.player;
         playerStats = PlayerManager.Instance.playerStats;
         playerSpriteRenderer = player.GetComponentInChildren<SpriteRenderer>();
-        weaponSpriteRenderer = weapon.GetComponent<SpriteRenderer>();
 
         myMaterial = playerSpriteRenderer.material;
-        myWeaponMaterial = weaponSpriteRenderer.material;
     }
 
     private void Update()
@@ -32,6 +29,8 @@ public class PlayerFX : MonoBehaviour
 
     private void InvencibilityFX()
     {
+        weaponSpriteRenderer = PlayerManager.Instance.playerWeapon.gameObject.GetComponent<SpriteRenderer>();
+
         if (playerStats.isInvencible == true)
         {
             playerSpriteRenderer.material = flashFX;
@@ -40,7 +39,7 @@ public class PlayerFX : MonoBehaviour
         else
         {
             playerSpriteRenderer.material = myMaterial;
-            weaponSpriteRenderer.material = myWeaponMaterial;
+            weaponSpriteRenderer.material = weaponDefaultMaterial;
         }
     }
 

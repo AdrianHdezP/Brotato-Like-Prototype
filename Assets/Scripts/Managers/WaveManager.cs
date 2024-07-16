@@ -79,7 +79,7 @@ public class WaveManager : MonoBehaviour
             roundCost -= enemyCost[randomIndex];
             enemySpawnTimer = spawnRate;
         }
-        else if (enemyCost[randomIndex] > roundCost)
+        else if (enemyCost[randomIndex] > roundCost) //Cuidao
         {
             randomIndex = Random.Range(0, enemyCost.Length);
         }

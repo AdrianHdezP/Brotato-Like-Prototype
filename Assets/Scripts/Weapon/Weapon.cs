@@ -82,7 +82,7 @@ public class Weapon : MonoBehaviour
         if (!WaveManager.Instance.isInRound)
             return false;
 
-        if (Time.time > lastShootTime + 1 / (PlayerManager.Instance.playerStats.fireRate + baseFireRate))
+        if (Time.time > lastShootTime + 1 / baseFireRate)
         {
             lastShootTime = Time.time;
             return true;
@@ -101,7 +101,7 @@ public class Weapon : MonoBehaviour
                 GameObject bullet = Instantiate(bulletPrefab, bulletSpawnPos.position, Quaternion.identity);
                 bullet.GetComponent<Rigidbody2D>().velocity = direction.normalized * bulletSpeed;
                 StartCoroutine(MuzzleFlash());
-            }   
+            }  
         }
     }
 

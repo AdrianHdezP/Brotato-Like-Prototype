@@ -110,17 +110,6 @@ public class ShopManager : MonoBehaviour
         speedTMP.text = "Speed: " + playerStats.speed;
 
         damageTMP.text = "Damage: " + playerStats.damage;
-
-        switch (weapon.weaponType)
-        {
-            case WeaponType.pistol:
-                fireRateTMP.text = "Fire Rate: " + playerStats.fireRate;
-                break;
-
-            case WeaponType.rifle:
-                fireRateTMP.text = "Fire Rate: " + (playerStats.fireRate + 1.5f);
-                break;
-        }
     }
 
     private void UpdateMoneyTMP() => moneyTMP.text = playerStats.Money + "$";

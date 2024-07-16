@@ -20,7 +20,6 @@ public class PlayerManager : MonoBehaviour
     }
 
     public Player player { get; private set; }
-
     public PlayerStats playerStats { get; private set; }
     public Weapon playerWeapon { get; private set; }
 
@@ -30,6 +29,10 @@ public class PlayerManager : MonoBehaviour
 
         player = GetComponent<Player>();
         playerStats = GetComponent<PlayerStats>();
+    }
+
+    private void Update()
+    {
         playerWeapon = GetComponentInChildren<Weapon>();
     }
 

@@ -1391,7 +1391,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   flashFX: {fileID: 2100000, guid: e965c5cf64dda134b96f04009a33791d, type: 2}
-  weapon: {fileID: 262760415}
+  weaponDefaultMaterial: {fileID: 2100000, guid: e70b50c89b938a240bf0c3e6aba7c6dc, type: 2}
 --- !u!114 &356159779
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1407,9 +1407,17 @@ MonoBehaviour:
   INVENCIBILITY_CHEAT: 0
   INFINITE_MONEY: 1
   maxHealth: 25
+  lifeRecovery: 0
+  harvesting: 0
+  luck: 0
   speed: 25
+  evasion: 0
+  armor: 0
   damage: 5
-  fireRate: 0
+  percentageOfCriticalDamage: 0
+  criticalDamage: 0
+  magicDamage: 0
+  magicRecovery: 0
   canMove: 1
   isInvencible: 0
 --- !u!1001 &443179577
@@ -3066,7 +3074,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1121058750}
   m_Layer: 8
-  m_Name: Weapons
+  m_Name: Weapons Holder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3604,7 +3612,6 @@ MonoBehaviour:
   - {fileID: 443179579}
   shopItemSO:
   - {fileID: 11400000, guid: 560dbebbaa6af64479909a0b36ecedd1, type: 2}
-  - {fileID: 11400000, guid: 291462232382f2048b2400204232632a, type: 2}
   - {fileID: 11400000, guid: dceb1eabe16d44a46959a4eab510da33, type: 2}
   - {fileID: 11400000, guid: e1bdb29760c5d8a46b06a6facf8e07a0, type: 2}
   - {fileID: 11400000, guid: c0572988890b136489bf4553cb6c9b36, type: 2}

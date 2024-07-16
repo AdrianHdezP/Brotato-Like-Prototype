@@ -15,14 +15,24 @@ public class PlayerStats : MonoBehaviour
     #region Variables
 
     [Header("General Config")]
-    public int maxHealth;
+    public int maxHealth; // Vida maxima 
+    public float lifeRecovery; // ?
+    public float harvesting; // Radio del iman de recoleccion
+    public float luck; // Porcentaje de conseguir mas monedas al matar enemigos
 
     [Header("Movement Config")]
     public float speed;
 
+    [Header("Defense Config")]
+    public float evasion; // Porcentaje de esquivar un ataque
+    public float armor; // Porcentaje de reduccion de daño
+
     [Header("Damage Config")]
-    public int damage;
-    public float fireRate;
+    public int damage; // Cantidad de daño 
+    public float percentageOfCriticalDamage; // Porcentaje de efectuar daño critico
+    public int criticalDamage; // Cantidad de daño critico 
+    public int magicDamage; // Cantidad de daño con magias 
+    public float magicRecovery; // Cooldown para magia (Debe de reducir todas)
 
     #endregion
 
@@ -72,6 +82,12 @@ public class PlayerStats : MonoBehaviour
         set
         {
             health = value;
+
+            if (health <= 0)
+            {
+                // Muerte
+                // Fin de partida
+            }
         }
     }
 

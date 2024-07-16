@@ -101,12 +101,6 @@ public class ShopItemSO : ScriptableObject
         SubstractMoney();
     }
 
-    public void FireRate()
-    {
-        PlayerManager.Instance.playerStats.fireRate += 0.5f;
-        SubstractMoney();
-    }
-
     #endregion
 
     public void Buy()
