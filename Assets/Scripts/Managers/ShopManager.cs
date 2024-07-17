@@ -29,6 +29,7 @@ public class ShopManager : MonoBehaviour
     [Header("Canvas Config")]
     [SerializeField] private GameObject shopCanvas;
     [SerializeField] private TextMeshProUGUI moneyTMP;
+    [SerializeField] private TextMeshProUGUI refreshTMP;
     [SerializeField] private Button nextRoundButton;
 
     [Header("Stats Config")]
@@ -43,9 +44,15 @@ public class ShopManager : MonoBehaviour
     [SerializeField] private ShopItemTemplate[] shopItems;
     [SerializeField] private ShopItemSO[] shopItemSO;
 
+    [Header("Shop config")]
+    public int shopRefreshCost;
+    public float shopCostMultiplier = 1.3f;
+    int baseShopRefreshCost;
+
     private void Awake()
     {
         instance = this;
+        baseShopRefreshCost = shopRefreshCost;
     }
 
     private void Start()
@@ -58,6 +65,11 @@ public class ShopManager : MonoBehaviour
         CheckForDuplicateId();
         SetupButton();
         LoadItems();
+    }
+
+    private void OnEnable()
+    {
+        refreshTMP.text = "REFRESH (" + shopRefreshCost + "$)";
     }
 
     private void Update()
@@ -147,6 +159,18 @@ public class ShopManager : MonoBehaviour
         {
             loadItemsID.Add(shopItems[i].shopItemSO.ID);
         }
+    }
+
+    public void RefreshShop()
+    {
+        LoadItems();
+        PlayerManager.Instance.SubstractMoney(shopRefreshCost);
+        shopRefreshCost = (int)(shopRefreshCost * shopCostMultiplier);
+        refreshTMP.text = "REFRESH (" + shopRefreshCost + "$)";
+    }
+    public void ResetShopRefreshCost()
+    {
+        shopRefreshCost = baseShopRefreshCost;
     }
 
     #endregion

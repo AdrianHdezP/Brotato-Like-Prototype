@@ -39,6 +39,8 @@ public class PlayerManager : MonoBehaviour
         playerWeapon = GetComponentInChildren<Weapon>();
     }
 
+    public void SubstractMoney(int amount) => PlayerManager.Instance.playerStats.Money -= amount;
+
     public bool IsKeyboardAndMouseActive()
     {
         if (playerInput.currentControlScheme == "Keyboard")

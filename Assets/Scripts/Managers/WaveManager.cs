@@ -87,6 +87,8 @@ public class WaveManager : MonoBehaviour
 
     public void NextRound()
     {
+        ShopManager.Instance.ResetShopRefreshCost();
+
         round++;
         roundCost = defaultRoundCost + 5;
         defaultRoundCost = roundCost;

@@ -28,8 +28,7 @@ public class ShopItemSO : ScriptableObject
             return true;
     }
 
-    private void SubstractMoney() => PlayerManager.Instance.playerStats.Money -= itemCost;
-
+   
     #endregion
 
     #region Weapons
@@ -45,7 +44,7 @@ public class ShopItemSO : ScriptableObject
         }
 
         PlayerManager.Instance.player.ChangeWeapons(0);
-        SubstractMoney();
+        PlayerManager.Instance.SubstractMoney(itemCost);
     }
 
     public void Rifle()
@@ -59,7 +58,7 @@ public class ShopItemSO : ScriptableObject
         }
 
         PlayerManager.Instance.player.ChangeWeapons(1);
-        SubstractMoney();
+        PlayerManager.Instance.SubstractMoney(itemCost);
     }
 
     #endregion
@@ -70,19 +69,19 @@ public class ShopItemSO : ScriptableObject
     {
         PlayerManager.Instance.playerStats.maxHealth += 5;
         PlayerManager.Instance.playerStats.Health += 5;
-        SubstractMoney();
+        PlayerManager.Instance.SubstractMoney(itemCost);
     }
 
     public void Speed()
     {
         PlayerManager.Instance.playerStats.speed += 1;
-        SubstractMoney();
+        PlayerManager.Instance.SubstractMoney(itemCost);
     }
 
     public void Damage()
     {
         PlayerManager.Instance.playerStats.damage += 5;
-        SubstractMoney();
+        PlayerManager.Instance.SubstractMoney(itemCost);
     }
 
     #endregion

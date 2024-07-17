@@ -785,7 +785,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 287710e9e54f9184c8c071a262f49e99, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  shopItemSO: {fileID: 0}
+  shopItemSO: {fileID: 11400000, guid: 560dbebbaa6af64479909a0b36ecedd1, type: 2}
   itemCostTMP: {fileID: 6112308780123653191}
   itemImage: {fileID: 0}
   itemNameTMP: {fileID: 6212420869909847833}
