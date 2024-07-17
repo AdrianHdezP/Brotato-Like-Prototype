@@ -34,13 +34,11 @@ public class ShopItemSO : ScriptableObject
 
     #region Weapons
 
-    private Weapon weapon;
-
     public void Pistol()
     {
-        weapon = PlayerManager.Instance.player.GetComponentInChildren<Weapon>();
+        WeaponPistol pistol = PlayerManager.Instance.playerWeapon.GetComponent<WeaponPistol>(); 
 
-        if (weapon.weaponType == WeaponType.pistol)
+        if (pistol != null)
         {
             FindObjectOfType<HUDManager>().SetupWarnings(1);
             return;
@@ -50,31 +48,17 @@ public class ShopItemSO : ScriptableObject
         SubstractMoney();
     }
 
-    public void Shootgun()
-    {
-        weapon = PlayerManager.Instance.player.GetComponentInChildren<Weapon>();
-
-        if (weapon.weaponType == WeaponType.pistol)
-        {
-            FindObjectOfType<HUDManager>().SetupWarnings(2);
-            return;
-        }
-
-        PlayerManager.Instance.player.ChangeWeapons(1);
-        SubstractMoney();
-    }
-
     public void Rifle()
     {
-        weapon = PlayerManager.Instance.player.GetComponentInChildren<Weapon>();
+        WeaponRifle rifle = PlayerManager.Instance.playerWeapon.GetComponent<WeaponRifle>();
 
-        if (weapon.weaponType == WeaponType.rifle)
+        if (rifle != null)
         {
             FindObjectOfType<HUDManager>().SetupWarnings(3);
             return;
         }
 
-        PlayerManager.Instance.player.ChangeWeapons(2);
+        PlayerManager.Instance.player.ChangeWeapons(1);
         SubstractMoney();
     }
 

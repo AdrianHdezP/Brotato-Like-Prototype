@@ -1,36 +1,45 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Diagnostics;
 using UnityEngine;
-using UnityEngine.InputSystem;
-using UnityEngine.InputSystem.Users;
-
-public enum WeaponType
-{
-    pistol,
-    shotgun,
-    rifle,
-}
 
 public class Weapon : MonoBehaviour
 {
-    private SpriteRenderer sr;
+
+    #region Components
+
+    public PlayerManager playerManager {  get; private set; }
+    public SpriteRenderer sr {  get; private set; }
+
+    #endregion
+
+    #region Variables
 
     [Header("Weapon Config")]
-    public WeaponType weaponType;
-    public float baseFireRate;
+    public float fireRate;
 
     [Header("Weapon Visuals")]
-    [SerializeField] private GameObject muzzle;
-    [SerializeField] private GameObject bulletPrefab;
-    [SerializeField] private Transform bulletSpawnPos;
+    public GameObject muzzle;
+    public GameObject bulletPrefab;
+    public Transform bulletSpawnPos;
 
-    private Vector3 direction;
+    #endregion
+
+    #region Get Private Set Variables
+
+    public Vector3 direction {  get; private set; }
+    public float bulletSpeed { get; private set; } = 100;
+
+    #endregion
+
+    #region Private Variables
+
     private float lastShootTime = 0;
-    private float bulletSpeed = 100;
+
+    #endregion
 
     private void Start()
     {
+        playerManager = PlayerManager.Instance;
         sr = GetComponent<SpriteRenderer>();    
     }
 
@@ -86,12 +95,12 @@ public class Weapon : MonoBehaviour
         }
     }
 
-    private bool CanShoot()
+    public bool CanShoot()
     {
         if (!WaveManager.Instance.isInRound)
             return false;
 
-        if (Time.time > lastShootTime + 1 / baseFireRate)
+        if (Time.time > lastShootTime + 1 / fireRate)
         {
             lastShootTime = Time.time;
             return true;
@@ -101,20 +110,9 @@ public class Weapon : MonoBehaviour
 
     }
 
-    private void Shoot()
-    {
-        if (CanShoot())
-        {
-            if (weaponType == WeaponType.pistol || weaponType == WeaponType.rifle)
-            {
-                GameObject bullet = Instantiate(bulletPrefab, bulletSpawnPos.position, Quaternion.identity);
-                bullet.GetComponent<Rigidbody2D>().velocity = direction.normalized * bulletSpeed;
-                StartCoroutine(MuzzleFlash());
-            }  
-        }
-    }
+    public virtual void Shoot() { }
 
-    private IEnumerator MuzzleFlash()
+    public IEnumerator MuzzleFlash()
     {
         muzzle.SetActive(true);
         yield return new WaitForSeconds(0.25f);

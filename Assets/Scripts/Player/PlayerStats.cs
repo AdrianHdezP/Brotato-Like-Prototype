@@ -16,12 +16,12 @@ public class PlayerStats : MonoBehaviour
 
     [Header("General Config")]
     public int maxHealth; // Vida maxima 
-    public float lifeRecovery; // ?
+    public float lifeRecovery; // Porcentaje de recuperacion de vida en la runa
     public float harvesting; // Radio del iman de recoleccion
     public float luck; // Porcentaje de conseguir mas monedas al matar enemigos
 
     [Header("Movement Config")]
-    public float speed;
+    public float speed; // Velocidad
 
     [Header("Defense Config")]
     public float evasion; // Porcentaje de esquivar un ataque
@@ -106,5 +106,22 @@ public class PlayerStats : MonoBehaviour
         #endregion
 
     }
+
+    #region Modify Methods
+
+    public void ModifyMaxHealth(int maxHealth) => this.maxHealth += maxHealth;
+    public void ModifyLifeRecovery(float lifeRecovery) => this.lifeRecovery += lifeRecovery;
+    public void ModifyHarvesting(float harvesting) => this.harvesting += harvesting;
+    public void ModifyLuck(float luck) => this.luck += luck;
+    public void ModifySpeed(float speed) => this.speed += speed;
+    public void ModifyEvasion(float evasion) => this.evasion += evasion;
+    public void ModifyArmor(float armor) => this.armor += armor;
+    public void ModifyDamage(int damage) => this.damage += damage;
+    public void ModifyPercentageOfCriticalDamage(float percentageOfCriticalDamage) => this.percentageOfCriticalDamage += percentageOfCriticalDamage;
+    public void ModifyCriticalDamage(int criticalDamage) => this.criticalDamage += criticalDamage;
+    public void ModifyMagicDamage(int magicDamage) => this.magicDamage += magicDamage;
+    public void ModifyMagicRecovery(float magicRecovery) => this.magicRecovery += magicRecovery;
+
+    #endregion
 
 }

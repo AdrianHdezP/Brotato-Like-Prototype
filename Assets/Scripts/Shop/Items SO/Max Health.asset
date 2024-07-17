@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f232dfc67a522ac44a401d67d99921fd, type: 3}
   m_Name: Max Health
   m_EditorClassIdentifier: 
-  ID: 3
+  ID: 2
   itemCost: 500
   itemImage: {fileID: 0}
   itemName: Health

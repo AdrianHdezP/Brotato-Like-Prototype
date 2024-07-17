@@ -48,10 +48,14 @@ public class Player : MonoBehaviour
     private void Update()
     {
         InputChecks();
-        Move();
         Animations();
         FlipController();
         SetInvencibilityToDefalut();
+    }
+
+    private void FixedUpdate()
+    {
+        Move();
     }
 
     #region Inputs
@@ -74,7 +78,7 @@ public class Player : MonoBehaviour
             return;
         }
 
-        rb.AddForce(new Vector2(moveInput.x, moveInput.y) * playerStats.speed);
+        rb.AddForce(new Vector2(moveInput.x, moveInput.y) * playerStats.speed * rb.mass);
     }
 
     private void DontMove() => rb.velocity = Vector2.zero;
