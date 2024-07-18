@@ -39,7 +39,18 @@ public class PlayerManager : MonoBehaviour
         playerWeapon = GetComponentInChildren<Weapon>();
     }
 
-    public void SubstractMoney(int amount) => PlayerManager.Instance.playerStats.Money -= amount;
+    public void SubstractMoney(int amount) => playerStats.Money -= amount;
+
+    public bool HasMoney(int itemCost)
+    {
+        if (playerStats.Money < itemCost)
+        {
+            FindObjectOfType<HUDManager>().SetupWarnings(0);
+            return false;
+        }
+        else
+            return true;
+    }
 
     public bool IsKeyboardAndMouseActive()
     {

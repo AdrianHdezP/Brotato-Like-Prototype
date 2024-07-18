@@ -11,38 +11,54 @@ public class ShopItemTemplate : MonoBehaviour
 
     [Header("Canvas Config")]
     [SerializeField] private TextMeshProUGUI itemCostTMP;
+    [SerializeField] private TextMeshProUGUI itemDiscountTMP;
     [SerializeField] private Image itemImage;
     [SerializeField] private TextMeshProUGUI itemNameTMP;
     [SerializeField] private TextMeshProUGUI itemDescriptionTMP;
     [SerializeField] private Button purchaseButton;
 
+    [HideInInspector] public int price;
+    [HideInInspector] public float discountMultiplier;
+
     private void Start()
     {
         AssignPurchaseEvent();
     }
-
     private void Update()
     {
-        AssignItemData();
-    }
-
-    private void AssignItemData()
-    {
-        if (shopItemSO != null)
+        if (discountMultiplier > 0)
         {
-            itemCostTMP.text = shopItemSO.itemCost.ToString();
-            //itemImage.sprite = shopItemSO.itemImage;
-            itemNameTMP.text = shopItemSO.itemName;
-            itemDescriptionTMP.text = shopItemSO.itemDescription;
+            itemDiscountTMP.gameObject.SetActive(true);
+            itemDiscountTMP.text = (GetDiscountedPrice()).ToString("0$");
         }
         else
         {
-            ResetPurchaseEvent();
+            itemDiscountTMP.gameObject.SetActive(false);
         }
     }
 
-    private void AssignPurchaseEvent() => purchaseButton.onClick.AddListener(() => shopItemSO.Buy());
+    public void AssignItemData()
+    {
+        //RESETS TO TRUE POR SI ACASO
+        shopItemSO.canBuy = true;
 
-    private void ResetPurchaseEvent() => purchaseButton.onClick.RemoveAllListeners();
+        //itemImage.sprite = shopItemSO.itemImage;
+        discountMultiplier = 0;
+        price = shopItemSO.itemCost;
+        itemCostTMP.text = price.ToString("0$");
+        itemNameTMP.text = shopItemSO.itemName;
+        itemDescriptionTMP.text = shopItemSO.itemDescription;
+    }
 
+    private void AssignPurchaseEvent()
+    {
+        purchaseButton.onClick.AddListener(() => shopItemSO.Buy(GetDiscountedPrice()));
+    }
+
+    public void ResetPurchaseEvent() => purchaseButton.onClick.RemoveAllListeners();
+
+    int GetDiscountedPrice()
+    {
+        return (int)(price - price * discountMultiplier);
+    }
 }

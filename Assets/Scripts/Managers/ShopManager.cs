@@ -49,6 +49,37 @@ public class ShopManager : MonoBehaviour
     public float shopCostMultiplier = 1.3f;
     int baseShopRefreshCost;
 
+    [Header("GenerateOdds")]
+
+    [Header("MIN ODDS")]
+    [SerializeField] float i_BasicOdds = 80f;
+    [SerializeField] float i_CommunOdds = 20f;
+    [SerializeField] float i_RareOdds = 0;
+    [SerializeField] float i_VeryRareOdds = 0;
+    [SerializeField] float i_LegendaryOdds = 0;
+
+    [Header("MAX ODDS")]
+    [SerializeField] float f_BasicOdds = 0f;
+    [SerializeField] float f_CommunOdds = 15f;
+    [SerializeField] float f_RareOdds = 30f;
+    [SerializeField] float f_VeryRareOdds = 40f;
+    [SerializeField] float f_LegendaryOdds = 15f;
+
+
+    [Header("MIN GENERATE ROUND")]
+    [SerializeField] int minRound_Basic = 0;
+    [SerializeField] int minRound_Commun = 0;
+    [SerializeField] int minRound_Rare = 5;
+    [SerializeField] int minRound_VeryRare = 10;
+    [SerializeField] int minRound_Legendary = 15;
+
+    [Header("CURRENT ODDS")]
+    [SerializeField] float c_BasicOdds = 0f;
+    [SerializeField] float c_CommunOdds = 15f;
+    [SerializeField] float c_RareOdds = 30f;
+    [SerializeField] float c_VeryRareOdds = 40f;
+    [SerializeField] float c_LegendaryOdds = 15f;
+
     private void Awake()
     {
         instance = this;
@@ -77,6 +108,8 @@ public class ShopManager : MonoBehaviour
         SetupCanvas();
         UpdateStats();
         UpdateMoneyTMP();
+
+        CalculateItemOdd();
     }
 
     #region Setup
@@ -97,14 +130,21 @@ public class ShopManager : MonoBehaviour
 
     private void SetupCanvas()
     {
-        if (!waveManager.isInRound)
+        if (!waveManager.isInRound && !shopCanvas.activeSelf)
         {
+            ResetShopRefreshCost();
             shopCanvas.SetActive(true);
             playerStats.canMove = false;
         }
-        else
+        else if (waveManager.isInRound && shopCanvas.activeSelf)
         {
             shopCanvas.SetActive(false);
+
+            foreach(ShopItemTemplate item in shopItems)
+            {
+                item.ResetPurchaseEvent();
+            }
+
             playerStats.canMove = true;
         }
     }
@@ -124,7 +164,7 @@ public class ShopManager : MonoBehaviour
         damageTMP.text = "Damage: " + playerStats.damage;
     }
 
-    private void UpdateMoneyTMP() => moneyTMP.text = playerStats.Money + "$";
+    public void UpdateMoneyTMP() => moneyTMP.text = playerStats.Money + "$";
 
     #endregion
 
@@ -140,10 +180,40 @@ public class ShopManager : MonoBehaviour
             int randomItem = Random.Range(0, shopItemSO.Length);
 
             shopItems[i].shopItemSO = shopItemSO[randomItem];
+            loadItemsID.Add(shopItems[i].shopItemSO.ID);
+            shopItems[i].AssignItemData();
 
-            CheckForDuplicateItems(i);
+            //CheckForDuplicateItems(i);
         }
+
+        CheckForDiscounts();
     }
+    void CalculateItemOdd()
+    {
+        float value = Mathf.Clamp01((float)WaveManager.Instance.round / WaveManager.Instance.maxRound);
+
+        //if (WaveManager.Instance.round >= minRound_Basic) c_BasicOdds = Mathf.Lerp(i_BasicOdds, f_BasicOdds, value);
+        //else c_BasicOdds = 0;
+        //if (WaveManager.Instance.round >= minRound_Commun) c_CommunOdds = Mathf.Lerp(i_CommunOdds, f_CommunOdds, value);
+        //else c_CommunOdds = 0;
+        //if (WaveManager.Instance.round >= minRound_Rare) c_RareOdds = Mathf.Lerp(i_RareOdds, f_RareOdds, value);
+        //else c_RareOdds = 0;
+        //if (WaveManager.Instance.round >= minRound_VeryRare) c_VeryRareOdds = Mathf.Lerp(i_VeryRareOdds, f_VeryRareOdds, value);
+        //else c_VeryRareOdds = 0;
+        //if (WaveManager.Instance.round >= minRound_Legendary) c_LegendaryOdds = Mathf.Lerp(i_LegendaryOdds, f_LegendaryOdds, value);
+        //else c_LegendaryOdds = 0;
+
+        c_BasicOdds = Mathf.Lerp(i_BasicOdds, f_BasicOdds, value);
+        
+        c_CommunOdds = Mathf.Lerp(i_CommunOdds, f_CommunOdds, value);
+       
+        c_RareOdds = Mathf.Lerp(i_RareOdds, f_RareOdds, value);
+        
+        c_VeryRareOdds = Mathf.Lerp(i_VeryRareOdds, f_VeryRareOdds, value);
+       
+        c_LegendaryOdds = Mathf.Lerp(i_LegendaryOdds, f_LegendaryOdds, value);      
+    }
+
 
     public void CheckForDuplicateItems(int i)
     {
@@ -152,7 +222,6 @@ public class ShopManager : MonoBehaviour
             int randomItem = Random.Range(0, shopItemSO.Length);
 
             shopItems[i].shopItemSO = shopItemSO[randomItem];
-
             CheckForDuplicateItems(i);
         }
         else
@@ -160,9 +229,26 @@ public class ShopManager : MonoBehaviour
             loadItemsID.Add(shopItems[i].shopItemSO.ID);
         }
     }
+    public void CheckForDiscounts()
+    {
+        for (int i = 0; i < loadItemsID.Count; i++)
+        {
+            shopItems[i].discountMultiplier = 0;
+
+            for (int j = 0; j < loadItemsID.Count; j++)
+            {
+                if (i != j && loadItemsID[i] == loadItemsID[j])
+                {
+                    shopItems[i].discountMultiplier += 0.33f;
+                }
+            }
+        }
+    }
 
     public void RefreshShop()
     {
+        if (!PlayerManager.Instance.HasMoney(shopRefreshCost)) return;
+
         LoadItems();
         PlayerManager.Instance.SubstractMoney(shopRefreshCost);
         shopRefreshCost = (int)(shopRefreshCost * shopCostMultiplier);
@@ -171,8 +257,10 @@ public class ShopManager : MonoBehaviour
     public void ResetShopRefreshCost()
     {
         shopRefreshCost = baseShopRefreshCost;
+        refreshTMP.text = "REFRESH (" + shopRefreshCost + "$)";
     }
 
-    #endregion
 
+
+    #endregion
 }

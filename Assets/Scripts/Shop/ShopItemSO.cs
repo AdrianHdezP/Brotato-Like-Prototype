@@ -17,19 +17,7 @@ public class ShopItemSO : ScriptableObject
     public string itemDescription;
 
     public UnityEvent buyEvent;
-
-    #region Money
-
-    private bool HasMoney()
-    {
-        if (PlayerManager.Instance.playerStats.Money < itemCost)
-            return false;
-        else
-            return true;
-    }
-
-   
-    #endregion
+    public bool canBuy = true;
 
     #region Weapons
 
@@ -40,11 +28,11 @@ public class ShopItemSO : ScriptableObject
         if (pistol != null)
         {
             FindObjectOfType<HUDManager>().SetupWarnings(1);
+            canBuy = false;
             return;
         }
 
         PlayerManager.Instance.player.ChangeWeapons(0);
-        PlayerManager.Instance.SubstractMoney(itemCost);
     }
 
     public void Rifle()
@@ -58,7 +46,6 @@ public class ShopItemSO : ScriptableObject
         }
 
         PlayerManager.Instance.player.ChangeWeapons(1);
-        PlayerManager.Instance.SubstractMoney(itemCost);
     }
 
     #endregion
@@ -69,32 +56,42 @@ public class ShopItemSO : ScriptableObject
     {
         PlayerManager.Instance.playerStats.maxHealth += 5;
         PlayerManager.Instance.playerStats.Health += 5;
-        PlayerManager.Instance.SubstractMoney(itemCost);
     }
 
     public void Speed()
     {
         PlayerManager.Instance.playerStats.speed += 1;
-        PlayerManager.Instance.SubstractMoney(itemCost);
     }
 
     public void Damage()
     {
         PlayerManager.Instance.playerStats.damage += 5;
-        PlayerManager.Instance.SubstractMoney(itemCost);
     }
 
     #endregion
 
-    public void Buy()
+    public void Buy(int cost)
     {
-        if (!HasMoney())
-        {
-            FindObjectOfType<HUDManager>().SetupWarnings(0);
+        if (!canBuy) return;
+
+        if (!PlayerManager.Instance.HasMoney(cost))
+        {       
             return;
         }
 
         buyEvent.Invoke();
-    }
 
+        if (canBuy)
+        {
+            PlayerManager.Instance.SubstractMoney(cost);
+            ShopManager.Instance.LoadItems();
+        }
+        else
+        {
+            Debug.LogWarning("CANT BUY BITCH");
+        }
+
+
+        canBuy = true;
+    }
 }

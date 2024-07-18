@@ -64,6 +64,7 @@ public class PlayerStats : MonoBehaviour
             }
 
             money = value;
+            //ShopManager.Instance.UpdateMoneyTMP();
         }
     }
 

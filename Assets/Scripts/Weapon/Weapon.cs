@@ -53,7 +53,7 @@ public class Weapon : MonoBehaviour
 
     private void CalculateDirection()
     {
-        if (PlayerManager.Instance.IsKeyboardAndMouseActive())
+        if (PlayerManager.Instance.IsKeyboardAndMouseActive() && Application.isFocused)
         {
             direction = Camera.main.ScreenToWorldPoint(Input.mousePosition) - transform.position;
             direction.Normalize();

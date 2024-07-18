@@ -107,7 +107,7 @@ public class Player : MonoBehaviour
 
     private void FlipController()
     {
-        if (playerManager.IsKeyboardAndMouseActive())
+        if (playerManager.IsKeyboardAndMouseActive() && Application.isFocused)
         {
             if (Camera.main.ScreenToWorldPoint(Input.mousePosition).x <= transform.position.x && isFacingRight)
             {

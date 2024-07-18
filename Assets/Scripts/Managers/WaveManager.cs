@@ -26,7 +26,9 @@ public class WaveManager : MonoBehaviour
     [SerializeField] private GameObject[] enemyPrefab;
     [SerializeField] private int[] enemyCost;
 
-    public int round { get; private set; } = 1;
+    //public int round { get; private set; } = 1;
+    public int round = 1;
+    public int maxRound = 25;
     public bool isInRound { get; private set; } = true;
 
     private int defaultRoundCost = 5;
@@ -86,9 +88,7 @@ public class WaveManager : MonoBehaviour
     }
 
     public void NextRound()
-    {
-        ShopManager.Instance.ResetShopRefreshCost();
-
+    {      
         round++;
         roundCost = defaultRoundCost + 5;
         defaultRoundCost = roundCost;

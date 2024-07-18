@@ -1069,6 +1069,8 @@ MonoBehaviour:
   enemyPrefab:
   - {fileID: 4836906655624625906, guid: cbf8857386600004fb3ce4879819f0e3, type: 3}
   enemyCost: 01000000
+  round: 1
+  maxRound: 25
 --- !u!4 &301043468
 Transform:
   m_ObjectHideFlags: 0
@@ -1270,7 +1272,7 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
-  m_Mass: 1
+  m_Mass: 3
   m_LinearDrag: 4
   m_AngularDrag: 0.05
   m_GravityScale: 0
@@ -1374,12 +1376,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   INVENCIBILITY_CHEAT: 0
-  INFINITE_MONEY: 1
+  INFINITE_MONEY: 0
   maxHealth: 25
   lifeRecovery: 0
   harvesting: 0
   luck: 0
-  speed: 35
+  speed: 55
   evasion: 0
   armor: 0
   damage: 5
@@ -3529,7 +3531,27 @@ MonoBehaviour:
   - {fileID: 11400000, guid: c0572988890b136489bf4553cb6c9b36, type: 2}
   - {fileID: 11400000, guid: 04953818acf329a4ea27e46c7ef4380d, type: 2}
   shopRefreshCost: 5
-  shopCostMultiplier: 1.2
+  shopCostMultiplier: 2
+  i_BasicOdds: 80
+  i_CommunOdds: 20
+  i_RareOdds: 0
+  i_VeryRareOdds: 0
+  i_LegendaryOdds: 0
+  f_BasicOdds: 0
+  f_CommunOdds: 15
+  f_RareOdds: 30
+  f_VeryRareOdds: 40
+  f_LegendaryOdds: 15
+  minRound_Basic: 0
+  minRound_Commun: 0
+  minRound_Rare: 5
+  minRound_VeryRare: 10
+  minRound_Legendary: 15
+  c_BasicOdds: 0
+  c_CommunOdds: 0
+  c_RareOdds: 0
+  c_VeryRareOdds: 0
+  c_LegendaryOdds: 0
 --- !u!1 &1334382937
 GameObject:
   m_ObjectHideFlags: 0
