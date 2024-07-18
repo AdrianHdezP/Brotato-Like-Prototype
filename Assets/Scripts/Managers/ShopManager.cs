@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -39,10 +38,13 @@ public class ShopManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI fireRateTMP;
 
     [Header("Items Config")]
-    private List<int> itemsID;
     private List<int> loadItemsID;
     [SerializeField] private ShopItemTemplate[] shopItems;
-    [SerializeField] private ShopItemSO[] shopItemSO;
+    [SerializeField] private ShopItemSO[] basicItemsSO;
+    [SerializeField] private ShopItemSO[] communItemsSO;
+    [SerializeField] private ShopItemSO[] rareItemsSO;
+    [SerializeField] private ShopItemSO[] veryRareItemsSO;
+    [SerializeField] private ShopItemSO[] legendaryItemsSO;
 
     [Header("Shop config")]
     public int shopRefreshCost;
@@ -80,6 +82,7 @@ public class ShopManager : MonoBehaviour
     [SerializeField] float c_VeryRareOdds = 40f;
     [SerializeField] float c_LegendaryOdds = 15f;
 
+
     private void Awake()
     {
         instance = this;
@@ -93,7 +96,6 @@ public class ShopManager : MonoBehaviour
         weapon = player.GetComponentInChildren<Weapon>();
         waveManager = WaveManager.Instance;
 
-        CheckForDuplicateId();
         SetupButton();
         LoadItems();
     }
@@ -113,20 +115,6 @@ public class ShopManager : MonoBehaviour
     }
 
     #region Setup
-
-    private void CheckForDuplicateId()
-    {
-        itemsID = new List<int>();
-        itemsID.Clear();
-
-        for (int i = 0; i < shopItemSO.Length; i++)
-        {
-            if (itemsID.Contains(shopItemSO[i].ID))
-                Debug.LogError("Item ID duplicated");
-            else
-                itemsID.Add(shopItemSO[i].ID);
-        }
-    }
 
     private void SetupCanvas()
     {
@@ -170,6 +158,38 @@ public class ShopManager : MonoBehaviour
 
     #region LoadItems
 
+    public ShopItemSO GetItemOfType()
+    {
+
+        float random = Random.Range(0f, 100f);
+
+        if (random <= c_LegendaryOdds)
+        {
+            int randomItem = Random.Range(0, legendaryItemsSO.Length);
+            return legendaryItemsSO[randomItem];
+        }
+        else if (random <= c_LegendaryOdds + c_VeryRareOdds)
+        {
+            int randomItem = Random.Range(0, veryRareItemsSO.Length);
+            return veryRareItemsSO[randomItem];
+        }
+        else if (random <= c_LegendaryOdds + c_VeryRareOdds + c_RareOdds)
+        {
+            int randomItem = Random.Range(0, rareItemsSO.Length);
+            return rareItemsSO[randomItem];
+        }
+        else if (random <= c_LegendaryOdds + c_VeryRareOdds + c_RareOdds + c_CommunOdds)
+        {
+            int randomItem = Random.Range(0, communItemsSO.Length);
+            return communItemsSO[randomItem];
+        }
+        else
+        {
+            int randomItem = Random.Range(0, basicItemsSO.Length);
+            return basicItemsSO[randomItem];
+        }
+    }
+
     public void LoadItems()
     {
         loadItemsID = new List<int>();
@@ -177,20 +197,20 @@ public class ShopManager : MonoBehaviour
 
         for (int i = 0; i < shopItems.Length; i++)
         {
-            int randomItem = Random.Range(0, shopItemSO.Length);
+            ShopItemSO current = GetItemOfType();
 
-            shopItems[i].shopItemSO = shopItemSO[randomItem];
+            shopItems[i].shopItemSO = current;
+
             loadItemsID.Add(shopItems[i].shopItemSO.ID);
             shopItems[i].AssignItemData();
-
-            //CheckForDuplicateItems(i);
         }
 
         CheckForDiscounts();
     }
+
     void CalculateItemOdd()
     {
-        float value = Mathf.Clamp01((float)WaveManager.Instance.round / WaveManager.Instance.maxRound);
+        //float value = Mathf.Clamp01((float) WaveManager.Instance.round + minRound_Basic / WaveManager.Instance.maxRound);
 
         //if (WaveManager.Instance.round >= minRound_Basic) c_BasicOdds = Mathf.Lerp(i_BasicOdds, f_BasicOdds, value);
         //else c_BasicOdds = 0;
@@ -203,32 +223,32 @@ public class ShopManager : MonoBehaviour
         //if (WaveManager.Instance.round >= minRound_Legendary) c_LegendaryOdds = Mathf.Lerp(i_LegendaryOdds, f_LegendaryOdds, value);
         //else c_LegendaryOdds = 0;
 
-        c_BasicOdds = Mathf.Lerp(i_BasicOdds, f_BasicOdds, value);
-        
-        c_CommunOdds = Mathf.Lerp(i_CommunOdds, f_CommunOdds, value);
-       
-        c_RareOdds = Mathf.Lerp(i_RareOdds, f_RareOdds, value);
-        
-        c_VeryRareOdds = Mathf.Lerp(i_VeryRareOdds, f_VeryRareOdds, value);
-       
-        c_LegendaryOdds = Mathf.Lerp(i_LegendaryOdds, f_LegendaryOdds, value);      
+        float _BasicOdds = Mathf.Lerp(i_BasicOdds, f_BasicOdds, Mathf.Clamp01((float)(WaveManager.Instance.round - minRound_Basic) / (WaveManager.Instance.maxRound - minRound_Basic)));
+
+        float _CommunOdds = Mathf.Lerp(i_CommunOdds, f_CommunOdds, Mathf.Clamp01((float)(WaveManager.Instance.round - minRound_Commun) / (WaveManager.Instance.maxRound - minRound_Commun)));
+
+        float _RareOdds = Mathf.Lerp(i_RareOdds, f_RareOdds, Mathf.Clamp01((float)(WaveManager.Instance.round - minRound_Rare) / (WaveManager.Instance.maxRound - minRound_Rare)));
+
+        float _VeryRareOdds = Mathf.Lerp(i_VeryRareOdds, f_VeryRareOdds, Mathf.Clamp01((float)(WaveManager.Instance.round - minRound_VeryRare) / (WaveManager.Instance.maxRound - minRound_VeryRare)));
+
+        float _LegendaryOdds = Mathf.Lerp(i_LegendaryOdds, f_LegendaryOdds, Mathf.Clamp01((float)(WaveManager.Instance.round - minRound_Legendary) / (WaveManager.Instance.maxRound - minRound_Legendary)));
+
+        float total = _BasicOdds + _CommunOdds + _RareOdds + _VeryRareOdds + _LegendaryOdds;
+
+
+        _BasicOdds /= total;
+        _CommunOdds /= total;
+        _RareOdds /= total;
+        _VeryRareOdds /= total;
+        _LegendaryOdds /= total;
+
+        c_BasicOdds = _BasicOdds * 100;
+        c_CommunOdds = _CommunOdds * 100;
+        c_RareOdds = _RareOdds * 100;
+        c_VeryRareOdds = _VeryRareOdds * 100;
+        c_LegendaryOdds = _LegendaryOdds * 100;
     }
 
-
-    public void CheckForDuplicateItems(int i)
-    {
-        if (loadItemsID.Contains(shopItems[i].shopItemSO.ID))
-        {
-            int randomItem = Random.Range(0, shopItemSO.Length);
-
-            shopItems[i].shopItemSO = shopItemSO[randomItem];
-            CheckForDuplicateItems(i);
-        }
-        else
-        {
-            loadItemsID.Add(shopItems[i].shopItemSO.ID);
-        }
-    }
     public void CheckForDiscounts()
     {
         for (int i = 0; i < loadItemsID.Count; i++)

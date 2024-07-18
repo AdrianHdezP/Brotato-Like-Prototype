@@ -3524,12 +3524,16 @@ MonoBehaviour:
   - {fileID: 2055137130}
   - {fileID: 1138638098}
   - {fileID: 443179579}
-  shopItemSO:
-  - {fileID: 11400000, guid: 560dbebbaa6af64479909a0b36ecedd1, type: 2}
-  - {fileID: 11400000, guid: dceb1eabe16d44a46959a4eab510da33, type: 2}
-  - {fileID: 11400000, guid: e1bdb29760c5d8a46b06a6facf8e07a0, type: 2}
-  - {fileID: 11400000, guid: c0572988890b136489bf4553cb6c9b36, type: 2}
-  - {fileID: 11400000, guid: 04953818acf329a4ea27e46c7ef4380d, type: 2}
+  basicItemsSO:
+  - {fileID: 11400000, guid: 8e7066653992b4d4ebc751584e2bdd69, type: 2}
+  communItemsSO:
+  - {fileID: 11400000, guid: fa7e3d1c3cdd2f1469db5b9a75429823, type: 2}
+  rareItemsSO:
+  - {fileID: 11400000, guid: 23719f731721df34ca989001ad63f6f1, type: 2}
+  veryRareItemsSO:
+  - {fileID: 11400000, guid: 01be95f14ae6f104e8ea7467b863424c, type: 2}
+  legendaryItemsSO:
+  - {fileID: 11400000, guid: 43974467c278a2e4faefd63aee89ba83, type: 2}
   shopRefreshCost: 5
   shopCostMultiplier: 2
   i_BasicOdds: 80
@@ -3540,8 +3544,8 @@ MonoBehaviour:
   f_BasicOdds: 0
   f_CommunOdds: 15
   f_RareOdds: 30
-  f_VeryRareOdds: 40
-  f_LegendaryOdds: 15
+  f_VeryRareOdds: 50
+  f_LegendaryOdds: 5
   minRound_Basic: 0
   minRound_Commun: 0
   minRound_Rare: 5
