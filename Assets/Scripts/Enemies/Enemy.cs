@@ -6,45 +6,38 @@ public class Enemy : MonoBehaviour
 {
     #region Components
 
+    private PlayerManager playerManager;
     private Player player;
+    private PlayerStats playerStats;
     private Rigidbody2D rb;
 
     #endregion
 
-    [Header("Enemy Type Data")]
-    [SerializeField] private EnemyTypeSO enemyTypeData;
+    #region Variables
 
     [Header("Config")]
     [SerializeField] private Transform visuals;
-    [SerializeField] private GameObject deathAnimation;
+    [SerializeField] private float forceMultiplier;
+    [SerializeField] private GameObject oneDollarMoneyPrefab;
+    [SerializeField] private GameObject fiveDollarMoneyPrefab;
+    [SerializeField] private GameObject tenDollarMoneyPrefab;
+    [SerializeField] private GameObject deathAnimationPrefab;
+
+    [Header("Setup")]
+    public int dropMoney;
+    public int health;
+    public float speed;
+    public int damage;
 
     private bool facingRight = true;
 
-    #region Inherited Variables
-
-    private int moneyToAdd;
-    private int health;
-    private float speed;
-    private int damage;
-
     #endregion
-
-    private void Awake()
-    {
-        SetupEnemy();
-    }
-
-    private void SetupEnemy()
-    {
-        moneyToAdd = enemyTypeData.MoneyToAdd;
-        health = enemyTypeData.Health;
-        speed = enemyTypeData.Speed;
-        damage = enemyTypeData.Damage;
-    }
 
     private void Start()
     {
-        player = PlayerManager.Instance.player;
+        playerManager = PlayerManager.Instance;
+        player = playerManager.player;
+        playerStats = playerManager.playerStats;
         rb = GetComponent<Rigidbody2D>();
     }
 
@@ -88,9 +81,53 @@ public class Enemy : MonoBehaviour
 
     private void Flip() => visuals.Rotate(0, 180, 0);
 
+    private void InstantiateMoney()
+    {
+        float randomLuck = Random.Range(0f, 100f);
+
+        if (randomLuck <= playerStats.luck)
+        {
+            int randomExtraMoney = Random.Range(1, 6);
+            dropMoney += randomExtraMoney;
+        }
+
+        while (dropMoney > 0)
+        {
+            GameObject money;
+
+            if (dropMoney >= 10)
+            {
+                money = Instantiate(tenDollarMoneyPrefab, transform.position, Quaternion.identity);
+                dropMoney -= 10;
+            }
+            else if (dropMoney >= 5)
+            {
+                money = Instantiate(fiveDollarMoneyPrefab, transform.position, Quaternion.identity);
+                dropMoney -= 5;
+            }
+            else
+            {
+                money = Instantiate(oneDollarMoneyPrefab, transform.position, Quaternion.identity);
+                dropMoney -= 1;
+            }
+
+            float RandomX = Random.Range(-1f, 1f);
+            float RandomY = Random.Range(-1f, 1f);
+
+            money.GetComponent<Rigidbody2D>().AddForce(new Vector2(RandomX, RandomY) * forceMultiplier, ForceMode2D.Impulse);
+        }  
+    }
+
     private void PassiveAttack()
     {
-        PlayerManager.Instance.playerStats.Health -= damage;
+        float randomEvasion = Random.Range(0f, 100f);
+
+        if (randomEvasion <= playerStats.evasion)
+            return;
+
+        float finalDamage = (damage / 100f) * (100f - playerStats.armor);
+
+        PlayerManager.Instance.playerStats.Health -= (int)(finalDamage);
         player.SetInvencibility();
     }
 
@@ -105,8 +142,8 @@ public class Enemy : MonoBehaviour
     private void Die()
     {
         WaveManager.Instance.enemiesInRound--;
-        PlayerManager.Instance.playerStats.Money += moneyToAdd;
-        Instantiate(deathAnimation, transform.position, Quaternion.identity);
+        InstantiateMoney();
+        Instantiate(deathAnimationPrefab, transform.position, Quaternion.identity);
         Destroy(gameObject);
     }
 

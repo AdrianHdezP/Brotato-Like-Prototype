@@ -15,24 +15,24 @@ public class PlayerStats : MonoBehaviour
     #region Variables
 
     [Header("General Config")]
-    public int maxHealth; // Vida maxima 
-    public float lifeRecovery; // Porcentaje de recuperacion de vida en la runa
-    public float harvesting; // Radio del iman de recoleccion
-    public float luck; // Porcentaje de conseguir mas monedas al matar enemigos
+    public int maxHealth; // Vida maxima - 1
+    public float lifeRecovery; // Porcentaje de recuperacion de vida en la runa - 0
+    [Range(10, 75)] public float harvesting; // Distancia de recoleccion - 1
+    [Range(1, 100)] public float luck; // Porcentaje de conseguir mas monedas al matar enemigos - 1
 
     [Header("Movement Config")]
-    public float speed; // Velocidad
+    [Range(50, 100)] public float speed; // Velocidad - 1
 
     [Header("Defense Config")]
-    public float evasion; // Porcentaje de esquivar un ataque
-    public float armor; // Porcentaje de reduccion de daño
+    [Range(1, 50)] public float evasion; // Porcentaje de esquivar un ataque - 1
+    [Range(1, 75)] public float armor; // Porcentaje de reduccion de daño - 1
 
     [Header("Damage Config")]
-    public int damage; // Cantidad de daño 
-    public float percentageOfCriticalDamage; // Porcentaje de efectuar daño critico
-    public int criticalDamage; // Cantidad de daño critico 
-    public int magicDamage; // Cantidad de daño con magias 
-    public float magicRecovery; // Cooldown para magia (Debe de reducir todas)
+    public int damage; // Cantidad de daño - 1
+    public float percentageOfCriticalDamage; // Porcentaje de efectuar daño critico - 0
+    public int criticalDamage; // Cantidad de daño critico  - 0
+    public int magicDamage; // Cantidad de daño con magias  - 0
+    public float magicRecovery; // Cooldown para magia (Debe de reducir todas) - 0
 
     #endregion
 

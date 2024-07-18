@@ -39,7 +39,7 @@ public class PlayerManager : MonoBehaviour
         playerWeapon = GetComponentInChildren<Weapon>();
     }
 
-    public void SubstractMoney(int amount) => playerStats.Money -= amount;
+    #region Money Methods
 
     public bool HasMoney(int itemCost)
     {
@@ -51,6 +51,12 @@ public class PlayerManager : MonoBehaviour
         else
             return true;
     }
+
+    public void SubstractMoney(int amount) => playerStats.Money -= amount;
+
+    #endregion
+
+    #region Active Controller
 
     public bool IsKeyboardAndMouseActive()
     {
@@ -67,5 +73,7 @@ public class PlayerManager : MonoBehaviour
 
         return false;   
     }
+
+    #endregion
 
 }

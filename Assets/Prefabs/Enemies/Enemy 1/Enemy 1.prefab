@@ -216,9 +216,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f99ccad0de2c53a4aa23bf7629d7ec02, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemyTypeData: {fileID: 11400000, guid: 07dfa266c2b06da49a616633e5e075d0, type: 2}
   visuals: {fileID: 3566969212116836446}
-  deathAnimation: {fileID: 7517960557170919780, guid: 1a039e79f4cf9c74aa5929044383f24c, type: 3}
+  forceMultiplier: 25
+  oneDollarMoneyPrefab: {fileID: 767145408460552741, guid: 0e6ef05cba6f8cc498704b17e0c80b1a, type: 3}
+  fiveDollarMoneyPrefab: {fileID: 6575022088445904106, guid: 10a7b13f62f03a246b75e5f7c4866811, type: 3}
+  tenDollarMoneyPrefab: {fileID: 3352367062265128715, guid: 62389694193d9e7489b341f36f70f5e9, type: 3}
+  deathAnimationPrefab: {fileID: 7517960557170919780, guid: 1a039e79f4cf9c74aa5929044383f24c, type: 3}
+  dropMoney: 18
+  health: 5
+  speed: 10
+  damage: 5
 --- !u!1 &8259350670887545183
 GameObject:
   m_ObjectHideFlags: 0
@@ -229,7 +236,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5189021920757339937}
   - component: {fileID: 3800186208779110113}
-  m_Layer: 7
+  m_Layer: 6
   m_Name: Collision
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -283,6 +290,6 @@ CircleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.6594825, y: -2.4519248}
+  m_Offset: {x: -0.08900595, y: -3.773762}
   serializedVersion: 2
-  m_Radius: 3.75
+  m_Radius: 1.885515

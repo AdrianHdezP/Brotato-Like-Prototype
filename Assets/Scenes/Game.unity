@@ -1379,11 +1379,11 @@ MonoBehaviour:
   INFINITE_MONEY: 0
   maxHealth: 25
   lifeRecovery: 0
-  harvesting: 0
-  luck: 0
-  speed: 55
-  evasion: 0
-  armor: 0
+  harvesting: 10
+  luck: 5
+  speed: 50
+  evasion: 5
+  armor: 5
   damage: 5
   percentageOfCriticalDamage: 0
   criticalDamage: 0
