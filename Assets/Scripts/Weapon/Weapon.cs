@@ -26,7 +26,6 @@ public class Weapon : MonoBehaviour
 
     #region Get Private Set Variables
 
-    public Vector3 direction {  get; private set; }
     public float bulletSpeed { get; private set; } = 100;
 
     #endregion
@@ -45,28 +44,14 @@ public class Weapon : MonoBehaviour
 
     private void Update()
     {
-        CalculateDirection();
         AimToMousePosition();
         Shoot();
         Flip();
     }
 
-    private void CalculateDirection()
-    {
-        if (PlayerManager.Instance.IsKeyboardAndMouseActive() && Application.isFocused)
-        {
-            direction = Camera.main.ScreenToWorldPoint(Input.mousePosition) - transform.position;
-            direction.Normalize();
-        }
-        else if (PlayerManager.Instance.IsGamepadActive())
-        {
-            direction = PlayerManager.Instance.player.aimInput.normalized;
-        }  
-    }
-
     private void AimToMousePosition()
     {
-        float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+        float angle = Mathf.Atan2(playerManager.player.lookDirection.y, playerManager.player.lookDirection.x) * Mathf.Rad2Deg;
         transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
     }
 
@@ -77,7 +62,7 @@ public class Weapon : MonoBehaviour
         Vector3 defaultMuzzlePosition = muzzle.transform.localPosition;
         Vector3 defaultBulletSpawnPos = bulletSpawnPos.localPosition;
 
-        if (PlayerManager.Instance.player.isFacingRight)
+        if (playerManager.player.isFacingRight)
         {
             sr.flipY = false;
             muzzleSR.flipY = false;

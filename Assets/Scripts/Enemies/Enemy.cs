@@ -1,10 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
+using static UnityEngine.GraphicsBuffer;
 
 public class Enemy : MonoBehaviour
 {
     #region Components
+
+    [SerializeField] NavMeshAgent agent2D;
 
     private PlayerManager playerManager;
     private Player player;
@@ -24,6 +28,7 @@ public class Enemy : MonoBehaviour
     [SerializeField] private GameObject deathAnimationPrefab;
 
     [Header("Setup")]
+    public float moveSpeed;
     public int dropMoney;
     public int health;
     public float speed;
@@ -33,22 +38,32 @@ public class Enemy : MonoBehaviour
 
     #endregion
 
+    Vector3 moveDirection;
+
+    private void Awake()
+    {
+        rb = GetComponent<Rigidbody2D>();
+
+        agent2D.updateRotation = false;
+        agent2D.updateUpAxis = false;
+    }
+
     private void Start()
     {
         playerManager = PlayerManager.Instance;
         player = playerManager.player;
         playerStats = playerManager.playerStats;
-        rb = GetComponent<Rigidbody2D>();
     }
 
     private void Update()
     {
         FlipController();
+        MoveTowardsPlayer();
     }
 
     private void FixedUpdate()
     {
-        MoveTowardsPlayer();
+        AddForces();
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -59,11 +74,23 @@ public class Enemy : MonoBehaviour
             PassiveAttack();
     }
 
+
     private void MoveTowardsPlayer()
     {
-        Vector2 direction = player.transform.position - transform.position;
-        rb.velocity = direction.normalized * speed;
+        //Vector2 direction = player.transform.position - transform.position;
+        //rb.velocity = direction.normalized * speed;
+
+        if (player != null) agent2D.destination = player.transform.position;
+
+        agent2D.transform.localPosition = Vector3.zero;
+        moveDirection = agent2D.desiredVelocity;
     }
+    void AddForces()
+    {
+        moveDirection = new Vector3(Mathf.Clamp(moveDirection.x, -1f, 1f), Mathf.Clamp(moveDirection.y, -1f, 1f), 0);
+        rb.AddForce(moveDirection * moveSpeed * Time.fixedDeltaTime * rb.mass * 100);
+    }
+
 
     private void FlipController()
     {

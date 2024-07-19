@@ -28,11 +28,15 @@ public class Player : MonoBehaviour
 
     public Vector2 moveInput {  get; private set; }
     public Vector2 aimInput { get; private set; }
+    public Vector2 lookDirection { get; private set; }
 
     public bool isFacingRight { get; private set; } = true;
 
     #endregion
 
+
+    [Header("DEBUGGING")]
+    [SerializeField] string aimData;
 
     private void Start()
     {
@@ -47,6 +51,7 @@ public class Player : MonoBehaviour
 
     private void Update()
     {
+        CalculateDirection();
         InputChecks();
         Animations();
         FlipController();
@@ -78,10 +83,36 @@ public class Player : MonoBehaviour
             return;
         }
 
-        rb.AddForce(new Vector2(moveInput.x, moveInput.y) * playerStats.speed * rb.mass);
+
+        Vector2 moveDirection = new Vector2(moveInput.x, moveInput.y);
+
+        if (Vector3.Dot(moveDirection.normalized, lookDirection.normalized) > 0.6f) rb.AddForce(moveDirection.normalized * playerStats.speed * rb.mass * Time.fixedDeltaTime * 100);
+        else rb.AddForce(moveDirection.normalized * playerStats.speed * 0.6f * rb.mass * Time.fixedDeltaTime * 100);
+
+        aimData = "AIM: " + lookDirection.normalized + "// MOVE: " + moveDirection.normalized;
+
+       // rb.AddForce(new Vector2(moveInput.x, moveInput.y) * playerStats.speed * rb.mass);
     }
 
     private void DontMove() => rb.velocity = Vector2.zero;
+
+    #endregion
+
+    #region Look
+
+    private void CalculateDirection()
+    {
+        if (PlayerManager.Instance.IsKeyboardAndMouseActive() && Application.isFocused)
+        {
+            lookDirection = Camera.main.ScreenToWorldPoint(Input.mousePosition) - transform.position;
+            lookDirection.Normalize();
+        }
+        else if (PlayerManager.Instance.IsGamepadActive())
+        {
+            lookDirection = PlayerManager.Instance.player.aimInput.normalized;
+        }
+    }
+
 
     #endregion
 
