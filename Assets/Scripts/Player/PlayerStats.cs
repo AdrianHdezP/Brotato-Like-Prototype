@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class PlayerStats : MonoBehaviour
 {
+    private HUDManager hudManager;
+
     #region Developer Cheats
 
     [Header("Developer Cheats")]
@@ -18,14 +20,14 @@ public class PlayerStats : MonoBehaviour
     public int maxHealth; // Vida maxima - 1
     public float lifeRecovery; // Porcentaje de recuperacion de vida en la runa - 0
     [Range(10, 75)] public float harvesting; // Distancia de recoleccion - 1
-    [Range(1, 100)] public float luck; // Porcentaje de conseguir mas monedas al matar enemigos - 1
+    [Range(0, 100)] public float luck; // Porcentaje de conseguir mas monedas al matar enemigos - 1
 
     [Header("Movement Config")]
     [Range(50, 100)] public float speed; // Velocidad - 1
 
     [Header("Defense Config")]
-    [Range(1, 50)] public float evasion; // Porcentaje de esquivar un ataque - 1
-    [Range(1, 75)] public float armor; // Porcentaje de reduccion de daño - 1
+    [Range(0, 50)] public float evasion; // Porcentaje de esquivar un ataque - 1
+    [Range(0, 75)] public float armor; // Porcentaje de reduccion de daño - 1
 
     [Header("Damage Config")]
     public int damage; // Cantidad de daño - 1
@@ -64,7 +66,8 @@ public class PlayerStats : MonoBehaviour
             }
 
             money = value;
-            //ShopManager.Instance.UpdateMoneyTMP();
+
+            UpdateMoneyTMP();
         }
     }
 
@@ -84,6 +87,9 @@ public class PlayerStats : MonoBehaviour
         {
             health = value;
 
+            UpdateHealthSlider();
+            UpdateHealthTMP();
+
             if (health <= 0)
             {
                 // Muerte
@@ -98,6 +104,7 @@ public class PlayerStats : MonoBehaviour
 
     private void Start()
     {
+        hudManager = HUDManager.Instance;
 
         #region Setup Properties
 
@@ -106,21 +113,60 @@ public class PlayerStats : MonoBehaviour
 
         #endregion
 
+        AssignNewMaxHealthInSlider();
+        UpdateHealthSlider();
+        UpdateHealthTMP();
+        UpdateMoneyTMP();
     }
+
+    #region Health Methods
+
+    private void AssignNewMaxHealthInSlider() => hudManager.healthSlider.maxValue = maxHealth;
+
+    private void UpdateHealthSlider() => hudManager.healthSlider.value = health;
+
+    private void UpdateHealthTMP() => hudManager.healthTMP.text = health + " / " + maxHealth;
+
+    #endregion
+
+    #region Money Methods
+
+    private void UpdateMoneyTMP()
+    {
+        hudManager.moneyTMP.text = money + "$";
+        hudManager.shopMoneyTMP.text = money + "$";
+    }
+
+    #endregion
 
     #region Modify Methods
 
-    public void ModifyMaxHealth(int maxHealth) => this.maxHealth += maxHealth;
+    public void ModifyMaxHealth(int maxHealth)
+    {
+        this.maxHealth += maxHealth;
+        AssignNewMaxHealthInSlider();
+    }
+
     public void ModifyLifeRecovery(float lifeRecovery) => this.lifeRecovery += lifeRecovery;
+
     public void ModifyHarvesting(float harvesting) => this.harvesting += harvesting;
+    
     public void ModifyLuck(float luck) => this.luck += luck;
+
     public void ModifySpeed(float speed) => this.speed += speed;
+
     public void ModifyEvasion(float evasion) => this.evasion += evasion;
+
     public void ModifyArmor(float armor) => this.armor += armor;
+
     public void ModifyDamage(int damage) => this.damage += damage;
+
     public void ModifyPercentageOfCriticalDamage(float percentageOfCriticalDamage) => this.percentageOfCriticalDamage += percentageOfCriticalDamage;
+
     public void ModifyCriticalDamage(int criticalDamage) => this.criticalDamage += criticalDamage;
+
     public void ModifyMagicDamage(int magicDamage) => this.magicDamage += magicDamage;
+
     public void ModifyMagicRecovery(float magicRecovery) => this.magicRecovery += magicRecovery;
 
     #endregion

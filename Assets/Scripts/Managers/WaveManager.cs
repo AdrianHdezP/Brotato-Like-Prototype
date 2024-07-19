@@ -25,19 +25,25 @@ public class WaveManager : MonoBehaviour
     [SerializeField] private Transform[] spawns;
     [SerializeField] private GameObject[] enemyPrefab;
     [SerializeField] private int[] enemyCost;
-
-    //public int round { get; private set; } = 1;
     public int round = 1;
     public int maxRound = 25;
-    public bool isInRound { get; private set; } = true;
 
     private int defaultRoundCost = 5;
     private int roundCost = 5;
     private float enemySpawnTimer = 0;
 
+    public bool isInRound { get; private set; } = true;
+
+    //public int round { get; private set; } = 1;
+
     private void Awake()
     {
         instance = this;
+    }
+
+    private void Start()
+    {
+        UpdateRoundTMP();
     }
 
     private void Update()
@@ -54,6 +60,8 @@ public class WaveManager : MonoBehaviour
         if (enemiesInRound < 0)
             Debug.LogWarning("Enemies < 0");
     }
+
+    #region Round System
 
     private void RoundSystem()
     {
@@ -88,11 +96,16 @@ public class WaveManager : MonoBehaviour
     }
 
     public void NextRound()
-    {      
+    {
         round++;
         roundCost = defaultRoundCost + 5;
         defaultRoundCost = roundCost;
+        UpdateRoundTMP();
         ShopManager.Instance.LoadItems();
     }
+
+    #endregion
+
+    private void UpdateRoundTMP() => HUDManager.Instance.roundsTMP.text = "Rounds: " + round;
 
 }

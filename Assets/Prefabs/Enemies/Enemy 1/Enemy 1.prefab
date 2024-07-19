@@ -217,7 +217,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f99ccad0de2c53a4aa23bf7629d7ec02, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  agent2D: {fileID: 8190296172775297314}
   visuals: {fileID: 3566969212116836446}
   forceMultiplier: 25
   oneDollarMoneyPrefab: {fileID: 767145408460552741, guid: 0e6ef05cba6f8cc498704b17e0c80b1a, type: 3}
@@ -225,9 +224,9 @@ MonoBehaviour:
   tenDollarMoneyPrefab: {fileID: 3352367062265128715, guid: 62389694193d9e7489b341f36f70f5e9, type: 3}
   deathAnimationPrefab: {fileID: 7517960557170919780, guid: 1a039e79f4cf9c74aa5929044383f24c, type: 3}
   moveSpeed: 40
-  dropMoney: 18
+  dropMoney: 25
   health: 5
-  speed: 10
+  speed: 0
   damage: 5
 --- !u!1 &5444694986107397842
 GameObject:

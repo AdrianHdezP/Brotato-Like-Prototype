@@ -39,23 +39,24 @@ public class ShopItemTemplate : MonoBehaviour
 
     public void AssignItemData()
     {
-        //RESETS TO TRUE POR SI ACASO
+        //Resets can buy to true
         shopItemSO.canBuy = true;
 
-        //itemImage.sprite = shopItemSO.itemImage;
+        #region Setup
+
         discountMultiplier = 0;
         price = shopItemSO.itemCost;
         itemCostTMP.text = price.ToString("0$");
         itemNameTMP.text = shopItemSO.itemName;
+        //itemImage.sprite = shopItemSO.itemImage;
         itemDescriptionTMP.text = shopItemSO.itemDescription;
+
+        #endregion
+
     }
 
     public void AssignPurchaseEvent() => purchaseButton.onClick.AddListener(() => shopItemSO.Buy(GetDiscountedPrice()));
 
-    public void ResetPurchaseEvent() => purchaseButton.onClick.RemoveAllListeners();
+    private int GetDiscountedPrice() => (int)(price - price * discountMultiplier);
 
-    int GetDiscountedPrice()
-    {
-        return (int)(price - price * discountMultiplier);
-    }
 }

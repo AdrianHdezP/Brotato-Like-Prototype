@@ -17,7 +17,8 @@ public class ShopItemSO : ScriptableObject
     public string itemDescription;
 
     public UnityEvent buyEvent;
-    public bool canBuy = true;
+
+    [HideInInspector] public bool canBuy = true;
 
     #region Weapons
 
@@ -72,7 +73,8 @@ public class ShopItemSO : ScriptableObject
 
     public void Buy(int cost)
     {
-        if (!canBuy) return;
+        if (!canBuy) 
+            return;
 
         if (!PlayerManager.Instance.HasMoney(cost))
         {       
@@ -86,12 +88,8 @@ public class ShopItemSO : ScriptableObject
             PlayerManager.Instance.SubstractMoney(cost);
             ShopManager.Instance.LoadItems();
         }
-        else
-        {
-            Debug.LogWarning("CANT BUY BITCH");
-        }
-
 
         canBuy = true;
     }
+
 }

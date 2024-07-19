@@ -6,14 +6,35 @@ using TMPro;
 
 public class HUDManager : MonoBehaviour
 {
+    private static HUDManager instance;
+
+    public static HUDManager Instance
+    {
+        get
+        {
+            if (instance == null)
+            {
+                Debug.LogError("No instance");
+            }
+
+            return instance;
+        }
+    }
+
+    #region Componets
+
+    private PlayerManager playerManager;
     private PlayerStats playerStats;
     private WaveManager waveManager;
 
+    #endregion
+
     [Header("Canvas")]
-    [SerializeField] private Slider healthSlider;
-    [SerializeField] private TextMeshProUGUI healthTMP;
-    [SerializeField] private TextMeshProUGUI moneyTMP;
-    [SerializeField] private TextMeshProUGUI roundsTMP;
+    public Slider healthSlider;
+    public TextMeshProUGUI healthTMP;
+    public TextMeshProUGUI moneyTMP;
+    public TextMeshProUGUI shopMoneyTMP;
+    public TextMeshProUGUI roundsTMP;
 
     [Header("Canvas Warnings")]
     public GameObject[] warnings;
@@ -24,34 +45,22 @@ public class HUDManager : MonoBehaviour
 
     private float warningTimer;
 
+    private void Awake()
+    {
+        instance = this;
+    }
+
     private void Start()
     {
-        playerStats = PlayerManager.Instance.playerStats;
+        playerManager = PlayerManager.Instance;
+        playerStats = playerManager.playerStats;
         waveManager = WaveManager.Instance;
-
-        #region Setup Variables
-
-        healthSlider.maxValue = playerStats.Health;
-
-        #endregion
     }
 
     private void Update()
     {
-        UpdateHealthSlider();
-        UpdateHealthTMP();
-        UpdateMoneyTMP();
-        UpdateRoundInCanvas();
         ResetWarnings();
     }
-
-    private void UpdateHealthSlider() => healthSlider.value = playerStats.Health;
-
-    private void UpdateHealthTMP() => healthTMP.text = playerStats.Health + " / " + playerStats.maxHealth;
-
-    private void UpdateMoneyTMP() => moneyTMP.text = playerStats.Money + "$";
-
-    private void UpdateRoundInCanvas() => roundsTMP.text = "Rounds: " + waveManager.round;
 
     #region Warnings
 

@@ -8,12 +8,11 @@ public class Enemy : MonoBehaviour
 {
     #region Components
 
-    [SerializeField] NavMeshAgent agent2D;
-
     private PlayerManager playerManager;
     private Player player;
     private PlayerStats playerStats;
     private Rigidbody2D rb;
+    private NavMeshAgent agent2D;
 
     #endregion
 
@@ -34,15 +33,15 @@ public class Enemy : MonoBehaviour
     public float speed;
     public int damage;
 
+    private Vector3 moveDirection;
     private bool facingRight = true;
 
     #endregion
 
-    Vector3 moveDirection;
-
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
+        agent2D = GetComponentInChildren<NavMeshAgent>();
 
         agent2D.updateRotation = false;
         agent2D.updateUpAxis = false;
@@ -57,8 +56,8 @@ public class Enemy : MonoBehaviour
 
     private void Update()
     {
-        FlipController();
         MoveTowardsPlayer();
+        FlipController();
     }
 
     private void FixedUpdate()
@@ -74,23 +73,29 @@ public class Enemy : MonoBehaviour
             PassiveAttack();
     }
 
+    #region Movement
 
     private void MoveTowardsPlayer()
     {
         //Vector2 direction = player.transform.position - transform.position;
         //rb.velocity = direction.normalized * speed;
 
-        if (player != null) agent2D.destination = player.transform.position;
+        if (player != null) 
+            agent2D.destination = player.transform.position;
 
         agent2D.transform.localPosition = Vector3.zero;
         moveDirection = agent2D.desiredVelocity;
     }
-    void AddForces()
+
+    private void AddForces()
     {
         moveDirection = new Vector3(Mathf.Clamp(moveDirection.x, -1f, 1f), Mathf.Clamp(moveDirection.y, -1f, 1f), 0);
         rb.AddForce(moveDirection * moveSpeed * Time.fixedDeltaTime * rb.mass * 100);
     }
 
+    #endregion
+
+    #region Flip
 
     private void FlipController()
     {
@@ -107,6 +112,8 @@ public class Enemy : MonoBehaviour
     }
 
     private void Flip() => visuals.Rotate(0, 180, 0);
+
+    #endregion
 
     private void InstantiateMoney()
     {

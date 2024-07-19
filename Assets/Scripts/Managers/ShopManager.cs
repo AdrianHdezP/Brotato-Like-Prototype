@@ -22,12 +22,10 @@ public class ShopManager : MonoBehaviour
 
     private Player player;
     private PlayerStats playerStats;
-    private Weapon weapon;
     private WaveManager waveManager;
 
     [Header("Canvas Config")]
     [SerializeField] private GameObject shopCanvas;
-    [SerializeField] private TextMeshProUGUI moneyTMP;
     [SerializeField] private TextMeshProUGUI refreshTMP;
     [SerializeField] private Button nextRoundButton;
 
@@ -93,7 +91,6 @@ public class ShopManager : MonoBehaviour
     {
         player = PlayerManager.Instance.player;
         playerStats = PlayerManager.Instance.playerStats;
-        weapon = player.GetComponentInChildren<Weapon>();
         waveManager = WaveManager.Instance;
 
         SetupButton();
@@ -109,8 +106,6 @@ public class ShopManager : MonoBehaviour
     {
         SetupCanvas();
         UpdateStats();
-        UpdateMoneyTMP();
-
         CalculateItemOdd();
     }
 
@@ -152,11 +147,9 @@ public class ShopManager : MonoBehaviour
         damageTMP.text = "Damage: " + playerStats.damage;
     }
 
-    public void UpdateMoneyTMP() => moneyTMP.text = playerStats.Money + "$";
-
     #endregion
 
-    #region LoadItems
+    #region Shop Mehods
 
     public ShopItemSO GetItemOfType()
     {
@@ -210,7 +203,7 @@ public class ShopManager : MonoBehaviour
         CheckForDiscounts();
     }
 
-    void CalculateItemOdd()
+    private void CalculateItemOdd()
     {
         //float value = Mathf.Clamp01((float) WaveManager.Instance.round + minRound_Basic / WaveManager.Instance.maxRound);
 
@@ -269,20 +262,21 @@ public class ShopManager : MonoBehaviour
 
     public void RefreshShop()
     {
-        if (!PlayerManager.Instance.HasMoney(shopRefreshCost)) return;
+        if (!PlayerManager.Instance.HasMoney(shopRefreshCost)) 
+            return;
 
         LoadItems();
         PlayerManager.Instance.SubstractMoney(shopRefreshCost);
         shopRefreshCost = (int)(shopRefreshCost * shopCostMultiplier);
         refreshTMP.text = "REFRESH (" + shopRefreshCost + "$)";
     }
+
     public void ResetShopRefreshCost()
     {
         shopRefreshCost = baseShopRefreshCost;
         refreshTMP.text = "REFRESH (" + shopRefreshCost + "$)";
     }
 
-
-
     #endregion
+
 }
