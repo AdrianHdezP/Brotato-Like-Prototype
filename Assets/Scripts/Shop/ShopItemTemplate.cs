@@ -50,10 +50,7 @@ public class ShopItemTemplate : MonoBehaviour
         itemDescriptionTMP.text = shopItemSO.itemDescription;
     }
 
-    private void AssignPurchaseEvent()
-    {
-        purchaseButton.onClick.AddListener(() => shopItemSO.Buy(GetDiscountedPrice()));
-    }
+    public void AssignPurchaseEvent() => purchaseButton.onClick.AddListener(() => shopItemSO.Buy(GetDiscountedPrice()));
 
     public void ResetPurchaseEvent() => purchaseButton.onClick.RemoveAllListeners();
 

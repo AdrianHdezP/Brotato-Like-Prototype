@@ -130,7 +130,7 @@ public class ShopManager : MonoBehaviour
 
             foreach(ShopItemTemplate item in shopItems)
             {
-                item.ResetPurchaseEvent();
+                //item.ResetPurchaseEvent();
             }
 
             playerStats.canMove = true;
@@ -203,6 +203,8 @@ public class ShopManager : MonoBehaviour
 
             loadItemsID.Add(shopItems[i].shopItemSO.ID);
             shopItems[i].AssignItemData();
+
+            shopItems[i].AssignPurchaseEvent();
         }
 
         CheckForDiscounts();
