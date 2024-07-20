@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: COMMUN ITEM
   m_EditorClassIdentifier: 
   ID: 1
-  itemCost: 2
+  itemCost: 300
   itemImage: {fileID: 0}
   itemName: COMMUN ITEM
   itemDescription: 'This is a commun item '

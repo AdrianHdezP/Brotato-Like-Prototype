@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: BASIC ITEM
   m_EditorClassIdentifier: 
   ID: 0
-  itemCost: 1
+  itemCost: 200
   itemImage: {fileID: 0}
   itemName: BASIC ITEM
   itemDescription: 'this is a basic item '

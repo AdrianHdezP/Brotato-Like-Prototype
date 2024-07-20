@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: LEGENDARY ITEM
   m_EditorClassIdentifier: 
   ID: 4
-  itemCost: 5
+  itemCost: 600
   itemImage: {fileID: 0}
   itemName: LEGENDARY ITEM
   itemDescription: 'This is a legendary item '

@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: RARE ITEM
   m_EditorClassIdentifier: 
   ID: 2
-  itemCost: 3
+  itemCost: 400
   itemImage: {fileID: 0}
   itemName: RARE ITEM
   itemDescription: 'This is a rare item '
