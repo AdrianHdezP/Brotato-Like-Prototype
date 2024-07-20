@@ -86,7 +86,7 @@ public class ShopItemSO : ScriptableObject
         if (canBuy)
         {
             PlayerManager.Instance.SubstractMoney(cost);
-            ShopManager.Instance.LoadItems();
+            ShopManager.Instance.LoadItems(true, ID);
         }
 
         canBuy = true;

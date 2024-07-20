@@ -101,7 +101,6 @@ public class WaveManager : MonoBehaviour
         roundCost = defaultRoundCost + 5;
         defaultRoundCost = roundCost;
         UpdateRoundTMP();
-        ShopManager.Instance.LoadItems();
     }
 
     #endregion

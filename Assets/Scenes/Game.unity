@@ -1672,7 +1672,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   INVENCIBILITY_CHEAT: 0
-  INFINITE_MONEY: 0
+  INFINITE_MONEY: 1
   maxHealth: 25
   lifeRecovery: 0
   harvesting: 10
@@ -3981,7 +3981,8 @@ MonoBehaviour:
   legendaryItemsSO:
   - {fileID: 11400000, guid: 43974467c278a2e4faefd63aee89ba83, type: 2}
   shopRefreshCost: 5
-  shopCostMultiplier: 2
+  shopCostMultiplier: 1.2
+  shopRefreshSpeed: 3
   i_BasicOdds: 80
   i_CommunOdds: 20
   i_RareOdds: 0
@@ -5533,7 +5534,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: -500, y: -100}
+  m_AnchoredPosition: {x: -500, y: -56}
   m_SizeDelta: {x: 225, y: 75}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!114 &1900636104
@@ -5897,7 +5898,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: -492, y: -195}
+  m_AnchoredPosition: {x: -498, y: -141}
   m_SizeDelta: {x: 150, y: 50}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!114 &2044396723

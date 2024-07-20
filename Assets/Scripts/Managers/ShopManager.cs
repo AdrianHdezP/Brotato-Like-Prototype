@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -47,7 +48,10 @@ public class ShopManager : MonoBehaviour
     [Header("Shop config")]
     public int shopRefreshCost;
     public float shopCostMultiplier = 1.3f;
+    public float shopRefreshSpeed = 1.3f;
     int baseShopRefreshCost;
+
+    bool readyToReRoll = true;
 
     [Header("GenerateOdds")]
 
@@ -94,7 +98,7 @@ public class ShopManager : MonoBehaviour
         waveManager = WaveManager.Instance;
 
         SetupButton();
-        LoadItems();
+        //LoadItems(true);
     }
 
     private void OnEnable()
@@ -115,20 +119,23 @@ public class ShopManager : MonoBehaviour
     {
         if (!waveManager.isInRound && !shopCanvas.activeSelf)
         {
+            Debug.Log("TIENDA ACTIVADA");
+
             ResetShopRefreshCost();
-            shopCanvas.SetActive(true);
             playerStats.canMove = false;
+            shopCanvas.SetActive(true);
+            LoadItems(true);
         }
         else if (waveManager.isInRound && shopCanvas.activeSelf)
         {
-            shopCanvas.SetActive(false);
+            Debug.Log("TIENDA DESACTIVADA");
 
+            shopCanvas.SetActive(false);
+            playerStats.canMove = true;
             foreach(ShopItemTemplate item in shopItems)
             {
-                //item.ResetPurchaseEvent();
+                item.ShopItemSO = null;
             }
-
-            playerStats.canMove = true;
         }
     }
 
@@ -150,6 +157,114 @@ public class ShopManager : MonoBehaviour
     #endregion
 
     #region Shop Mehods
+    void LoadItems(bool ignoreLockState)
+    {
+        if (readyToReRoll)
+        {
+            StartCoroutine(ShopRefreshSequence(ignoreLockState));        
+        }
+    }
+    IEnumerator ShopRefreshSequence(bool ignoreLockState)
+    {
+        readyToReRoll = false;
+
+        loadItemsID = new List<int>();
+        loadItemsID.Clear();
+
+        for (int i = 0; i < shopItems.Length; i++)
+        {
+            StartCoroutine(SingleItemRefresh(i, shopRefreshSpeed, ignoreLockState));
+            yield return new WaitForSeconds(1 / shopRefreshSpeed * 0.15f);
+        }
+
+        yield return new WaitForSeconds(1 / shopRefreshSpeed);
+
+        readyToReRoll = true;
+    }
+    IEnumerator SingleItemRefresh(int i, float speed, bool ignoreLockState)
+    {
+        if (!shopItems[i].isLocked || ignoreLockState)
+        {        
+            shopItems[i].animator.SetFloat("Speed", speed);
+
+            if (shopItems[i].ShopItemSO != null) shopItems[i].animator.SetTrigger("Exit");
+
+            ShopItemSO current = GetItemOfType();
+            loadItemsID.Add(current.ID);
+
+            if (shopItems[i].ShopItemSO != null) yield return new WaitForSeconds(1 / speed);
+
+            Debug.LogWarning("SETTING ITEM");
+            shopItems[i].ShopItemSO = current;
+            shopItems[i].AssignPurchaseEvent();
+
+            shopItems[i].animator.SetTrigger("Enter");
+            if (ignoreLockState) shopItems[i].UnlockItem();
+
+        }
+        else 
+        {
+            loadItemsID.Add(shopItems[i].ShopItemSO.ID);        
+        }
+
+
+        CheckForDiscounts();
+    }
+
+    public void LoadItems(bool ignoreLockState, int index)
+    {
+        if (readyToReRoll)
+        {
+            StartCoroutine(ShopRefreshSequence(ignoreLockState, index));
+        }
+    }
+    IEnumerator ShopRefreshSequence(bool ignoreLockState, int index)
+    {
+        readyToReRoll = false;
+
+        loadItemsID = new List<int>();
+        loadItemsID.Clear();
+
+        for (int i = 0; i < shopItems.Length; i++)
+        {
+            StartCoroutine(SingleItemRefresh(i, shopRefreshSpeed, ignoreLockState, index));
+            yield return new WaitForSeconds(1 / shopRefreshSpeed * 0.15f);
+        }
+
+        yield return new WaitForSeconds(1 / shopRefreshSpeed);
+        
+        readyToReRoll = true;
+    }
+    IEnumerator SingleItemRefresh(int i, float speed, bool ignoreLockState, int index)
+    {
+        if ((!shopItems[i].isLocked || ignoreLockState) && shopItems[i].ShopItemSO.ID == index)
+        {
+            shopItems[i].animator.SetFloat("Speed", speed);
+
+            if (shopItems[i].ShopItemSO != null) shopItems[i].animator.SetTrigger("Exit");
+
+            ShopItemSO current = GetItemOfType();
+            loadItemsID.Add(current.ID);
+
+            if (shopItems[i].ShopItemSO != null) yield return new WaitForSeconds(1 / speed);
+
+            Debug.LogWarning("SETTING ITEM");
+            shopItems[i].ShopItemSO = current;
+            shopItems[i].AssignPurchaseEvent();
+
+            shopItems[i].animator.SetTrigger("Enter");
+            if (ignoreLockState) shopItems[i].UnlockItem();
+
+        }
+        else
+        {
+            loadItemsID.Add(shopItems[i].ShopItemSO.ID);
+        }
+
+
+        CheckForDiscounts();
+    }
+
 
     public ShopItemSO GetItemOfType()
     {
@@ -182,27 +297,6 @@ public class ShopManager : MonoBehaviour
             return basicItemsSO[randomItem];
         }
     }
-
-    public void LoadItems()
-    {
-        loadItemsID = new List<int>();
-        loadItemsID.Clear();
-
-        for (int i = 0; i < shopItems.Length; i++)
-        {
-            ShopItemSO current = GetItemOfType();
-
-            shopItems[i].shopItemSO = current;
-
-            loadItemsID.Add(shopItems[i].shopItemSO.ID);
-            shopItems[i].AssignItemData();
-
-            shopItems[i].AssignPurchaseEvent();
-        }
-
-        CheckForDiscounts();
-    }
-
     private void CalculateItemOdd()
     {
         //float value = Mathf.Clamp01((float) WaveManager.Instance.round + minRound_Basic / WaveManager.Instance.maxRound);
@@ -243,7 +337,6 @@ public class ShopManager : MonoBehaviour
         c_VeryRareOdds = _VeryRareOdds * 100;
         c_LegendaryOdds = _LegendaryOdds * 100;
     }
-
     public void CheckForDiscounts()
     {
         for (int i = 0; i < loadItemsID.Count; i++)
@@ -262,19 +355,39 @@ public class ShopManager : MonoBehaviour
 
     public void RefreshShop()
     {
-        if (!PlayerManager.Instance.HasMoney(shopRefreshCost)) 
+        if (!PlayerManager.Instance.HasMoney(shopRefreshCost) || !readyToReRoll || !CanReroll()) 
             return;
 
-        LoadItems();
+        LoadItems(false);
         PlayerManager.Instance.SubstractMoney(shopRefreshCost);
         shopRefreshCost = (int)(shopRefreshCost * shopCostMultiplier);
         refreshTMP.text = "REFRESH (" + shopRefreshCost + "$)";
     }
-
     public void ResetShopRefreshCost()
     {
         shopRefreshCost = baseShopRefreshCost;
         refreshTMP.text = "REFRESH (" + shopRefreshCost + "$)";
+    }
+
+    bool CanReroll()
+    {
+        bool canReroll = false;
+
+        foreach(ShopItemTemplate item in shopItems) 
+        {
+            if (!item.isLocked)
+            {
+                canReroll = true;
+                break;
+            }
+        }
+
+        return canReroll;
+    }
+    public void SetRerollButtonText()
+    {
+        if (!CanReroll()) refreshTMP.text = "UNABLE TO REFRESH";
+        else refreshTMP.text = "REFRESH (" + shopRefreshCost + "$)";
     }
 
     #endregion

@@ -3,11 +3,28 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using System;
 
 public class ShopItemTemplate : MonoBehaviour
 {
-    [Header("Item")]
-    public ShopItemSO shopItemSO;
+
+    [Header("ItemType")]
+    [SerializeField] ShopItemSO shopItemSO;
+    public ShopItemSO ShopItemSO
+    {
+        get 
+        {
+            return shopItemSO;
+        }
+        set
+        { 
+            shopItemSO = value;
+            AssignItemData();
+        }
+    }
+
+    [Header("Animator")]
+    public Animator animator;
 
     [Header("Canvas Config")]
     [SerializeField] private TextMeshProUGUI itemCostTMP;
@@ -16,13 +33,25 @@ public class ShopItemTemplate : MonoBehaviour
     [SerializeField] private TextMeshProUGUI itemNameTMP;
     [SerializeField] private TextMeshProUGUI itemDescriptionTMP;
     [SerializeField] private Button purchaseButton;
+    [SerializeField] private Image lockImage;
 
     [HideInInspector] public int price;
     [HideInInspector] public float discountMultiplier;
 
+    public bool isLocked { get; private set; }
+
+
     private void Start()
-    {
+    {       
         AssignPurchaseEvent();
+
+        if (shopItemSO != null) ShopItemSO = shopItemSO;
+    }
+
+    private void OnEnable()
+    {
+        //animator.SetFloat("Speed", ShopManager.Instance.shopRefreshSpeed);
+        //animator.SetTrigger("Enter");
     }
     private void Update()
     {
@@ -37,26 +66,65 @@ public class ShopItemTemplate : MonoBehaviour
         }
     }
 
-    public void AssignItemData()
+    void AssignItemData()
     {
-        //Resets can buy to true
-        shopItemSO.canBuy = true;
 
-        #region Setup
+        if (ShopItemSO != null)
+        {
+            //Resets can buy to true
+            ShopItemSO.canBuy = true;
 
-        discountMultiplier = 0;
-        price = shopItemSO.itemCost;
-        itemCostTMP.text = price.ToString("0$");
-        itemNameTMP.text = shopItemSO.itemName;
-        //itemImage.sprite = shopItemSO.itemImage;
-        itemDescriptionTMP.text = shopItemSO.itemDescription;
+            // Debug.Log("DATA ASSIGNED TO ITEM " + name);
+
+            #region Setup
+
+            discountMultiplier = 0;
+            price = ShopItemSO.itemCost;
+            itemCostTMP.text = price.ToString("0$");
+            itemNameTMP.text = ShopItemSO.itemName;
+            //itemImage.sprite = shopItemSO.itemImage;
+            itemDescriptionTMP.text = ShopItemSO.itemDescription;
+        }
+        else
+        {
+            //Debug.Log("DATA REMOVED FROM ITEM " + name);
+
+            discountMultiplier = 0;
+            price = 99999999;
+            itemCostTMP.text = price.ToString("0$");
+            itemNameTMP.text = "NULL OBJECT";
+            //itemImage.sprite = shopItemSO.itemImage;
+            itemDescriptionTMP.text = "NULL DESCRIPTION";
+        }
 
         #endregion
 
     }
-
-    public void AssignPurchaseEvent() => purchaseButton.onClick.AddListener(() => shopItemSO.Buy(GetDiscountedPrice()));
-
+    public void AssignPurchaseEvent()
+    {
+        purchaseButton.onClick.AddListener(() => ShopItemSO.Buy(GetDiscountedPrice()));
+    }
     private int GetDiscountedPrice() => (int)(price - price * discountMultiplier);
+
+
+    public void ToggleLockState()
+    {
+        if (isLocked) UnlockItem();
+        else LockItem();
+    }
+    public void LockItem()
+    {
+        isLocked = true;
+        lockImage.color = Color.grey;
+        lockImage.GetComponentInChildren<TextMeshProUGUI>().text = "UNLOCK";
+        ShopManager.Instance.SetRerollButtonText();
+    }
+    public void UnlockItem()
+    {
+        isLocked = false;
+        lockImage.color = Color.white;
+        lockImage.GetComponentInChildren<TextMeshProUGUI>().text = "LOCK";
+        ShopManager.Instance.SetRerollButtonText();
+    }
 
 }
