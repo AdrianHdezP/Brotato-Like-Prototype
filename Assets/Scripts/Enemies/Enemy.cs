@@ -117,7 +117,7 @@ public class Enemy : MonoBehaviour
 
     private void InstantiateMoney()
     {
-        float randomLuck = Random.Range(0f, 100f);
+        float randomLuck = Random.Range(0f, 1f);
 
         if (randomLuck <= playerStats.luck)
         {
@@ -154,24 +154,16 @@ public class Enemy : MonoBehaviour
 
     private void PassiveAttack()
     {
-        float randomEvasion = Random.Range(0f, 100f);
-
-        if (randomEvasion <= playerStats.evasion)
-            return;
-
-        float finalDamage = (damage / 100f) * (100f - playerStats.armor);
-
-        PlayerManager.Instance.playerStats.Health -= (int)(finalDamage);
-        player.SetInvencibility();
+        playerManager.RecieveDamage(damage);
     }
 
-    public void Damage()
+    public void RecieveDamage()
     {
         int damage = playerStats.damage;
-        float randomPercentageOfCriticDamage = Random.Range(0f, 100f);
+        float randomPercentageOfCriticDamage = Random.Range(0f, 1f);
 
         if (randomPercentageOfCriticDamage <= playerStats.percentageOfCriticalDamage)
-            damage = playerStats.criticalDamage;
+            damage *= playerStats.criticalDamageMult;
 
         health -= damage;
 

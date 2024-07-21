@@ -37,7 +37,7 @@ public class ShopManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI fireRateTMP;
 
     [Header("Items Config")]
-    private List<int> loadItemsID;
+    private List<string> loadItemsID;
     [SerializeField] private ShopItemTemplate[] shopItems;
     [SerializeField] private ShopItemSO[] basicItemsSO;
     [SerializeField] private ShopItemSO[] communItemsSO;
@@ -173,7 +173,7 @@ public class ShopManager : MonoBehaviour
     {
         readyToReRoll = false;
 
-        loadItemsID = new List<int>();
+        loadItemsID = new List<string>();
         loadItemsID.Clear();
 
         for (int i = 0; i < shopItems.Length; i++)
@@ -198,7 +198,7 @@ public class ShopManager : MonoBehaviour
                 shopItems[i].animator.SetTrigger("Exit");
 
             ShopItemSO current = GetItemOfType();
-            loadItemsID.Add(current.ID);
+            loadItemsID.Add(current.newId);
 
             if (shopItems[i].ShopItemSO != null)
                 yield return new WaitForSeconds(1 / speed);
@@ -206,7 +206,6 @@ public class ShopManager : MonoBehaviour
             Debug.LogWarning("SETTING ITEM");
 
             shopItems[i].ShopItemSO = current;
-            shopItems[i].AssignPurchaseEvent();
 
             shopItems[i].animator.SetTrigger("Enter");
 
@@ -216,7 +215,7 @@ public class ShopManager : MonoBehaviour
         }
         else 
         {
-            loadItemsID.Add(shopItems[i].ShopItemSO.ID);        
+            loadItemsID.Add(shopItems[i].ShopItemSO.newId);        
         }
 
         CheckForDiscounts();
@@ -226,7 +225,7 @@ public class ShopManager : MonoBehaviour
 
     #region Load Item With Index
 
-    public void LoadItems(bool ignoreLockState, int index)
+    public void LoadItems(bool ignoreLockState, string index)
     {
         if (readyToReRoll)
         {
@@ -234,16 +233,16 @@ public class ShopManager : MonoBehaviour
         }
     }
 
-    private IEnumerator ShopRefreshSequence(bool ignoreLockState, int index)
+    private IEnumerator ShopRefreshSequence(bool ignoreLockState, string indexID)
     {
         readyToReRoll = false;
 
-        loadItemsID = new List<int>();
+        loadItemsID = new List<string>();
         loadItemsID.Clear();
 
         for (int i = 0; i < shopItems.Length; i++)
         {
-            StartCoroutine(SingleItemRefresh(i, shopRefreshSpeed, ignoreLockState, index));
+            StartCoroutine(SingleItemRefresh(i, shopRefreshSpeed, ignoreLockState, indexID));
             yield return new WaitForSeconds(1 / shopRefreshSpeed * 0.15f);
         }
 
@@ -252,9 +251,9 @@ public class ShopManager : MonoBehaviour
         readyToReRoll = true;
     }
 
-    private IEnumerator SingleItemRefresh(int i, float speed, bool ignoreLockState, int index)
+    private IEnumerator SingleItemRefresh(int i, float speed, bool ignoreLockState, string indexID)
     {
-        if ((!shopItems[i].isLocked || ignoreLockState) && shopItems[i].ShopItemSO.ID == index)
+        if ((!shopItems[i].isLocked || ignoreLockState) && shopItems[i].ShopItemSO.newId == indexID)
         {
             shopItems[i].animator.SetFloat("Speed", speed);
 
@@ -262,7 +261,7 @@ public class ShopManager : MonoBehaviour
                 shopItems[i].animator.SetTrigger("Exit");
 
             ShopItemSO current = GetItemOfType();
-            loadItemsID.Add(current.ID);
+            loadItemsID.Add(current.newId);
 
             if (shopItems[i].ShopItemSO != null) 
                 yield return new WaitForSeconds(1 / speed);
@@ -270,7 +269,6 @@ public class ShopManager : MonoBehaviour
             Debug.LogWarning("SETTING ITEM");
 
             shopItems[i].ShopItemSO = current;
-            shopItems[i].AssignPurchaseEvent();
 
             shopItems[i].animator.SetTrigger("Enter");
 
@@ -280,7 +278,7 @@ public class ShopManager : MonoBehaviour
         }
         else
         {
-            loadItemsID.Add(shopItems[i].ShopItemSO.ID);
+            loadItemsID.Add(shopItems[i].ShopItemSO.newId);
         }
 
         CheckForDiscounts();

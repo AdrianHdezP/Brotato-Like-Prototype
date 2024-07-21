@@ -9,7 +9,6 @@ using UnityEngine.Events;
 public class ShopItemSO : ScriptableObject
 {
     [Header("ID")]
-    public int ID;
     public string newId;
 
     [Header("Item Setup")]
@@ -19,8 +18,6 @@ public class ShopItemSO : ScriptableObject
     public string itemDescription;
 
     public UnityEvent buyEvent;
-
-    [HideInInspector] public bool canBuy = true;
 
     private void OnEnable()
     {
@@ -36,7 +33,6 @@ public class ShopItemSO : ScriptableObject
         if (pistol != null)
         {
             FindObjectOfType<HUDManager>().SetupWarnings(1);
-            canBuy = false;
             return;
         }
 
@@ -61,36 +57,9 @@ public class ShopItemSO : ScriptableObject
     #region Items
 
     #region Basic Items
-
-    public void SmallLifePotion() => PlayerManager.Instance.playerStats.ModifyMaxHealth(1);
-
-    public void CombatSyringes() => PlayerManager.Instance.playerStats.ModifyMaxHealth(1);
-
-    public void BloodTransfer() => PlayerManager.Instance.playerStats.ModifyMaxHealth(2.5f);
+    public void ModifyMaxHealt(float value) => PlayerManager.Instance.playerStats.ModifyMaxHealth(value);
 
     #endregion
 
     #endregion
-
-    public void Buy(int cost)
-    {
-        if (!canBuy) 
-            return;
-
-        if (!PlayerManager.Instance.HasMoney(cost))
-        {       
-            return;
-        }
-
-        buyEvent.Invoke();
-
-        if (canBuy)
-        {
-            PlayerManager.Instance.SubstractMoney(cost);
-            ShopManager.Instance.LoadItems(true, ID);
-        }
-
-        canBuy = true;
-    }
-
 }

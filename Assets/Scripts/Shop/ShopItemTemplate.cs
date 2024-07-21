@@ -43,8 +43,6 @@ public class ShopItemTemplate : MonoBehaviour
 
     private void Start()
     {       
-        AssignPurchaseEvent();
-
         if (shopItemSO != null) ShopItemSO = shopItemSO;
     }
 
@@ -72,8 +70,6 @@ public class ShopItemTemplate : MonoBehaviour
 
         if (ShopItemSO != null)
         {
-            //Resets can buy to true
-            ShopItemSO.canBuy = true;
 
             // Debug.Log("DATA ASSIGNED TO ITEM " + name);
 
@@ -98,7 +94,7 @@ public class ShopItemTemplate : MonoBehaviour
 
     }
 
-    public void AssignPurchaseEvent() => purchaseButton.onClick.AddListener(() => ShopItemSO.Buy(GetDiscountedPrice()));
+ //   public void AssignPurchaseEvent() => purchaseButton.onClick.AddListener(() => ShopItemSO.Buy(GetDiscountedPrice()));
 
     private int GetDiscountedPrice() => (int)(price - price * discountMultiplier);
 
@@ -125,4 +121,20 @@ public class ShopItemTemplate : MonoBehaviour
         lockImage.GetComponentInChildren<TextMeshProUGUI>().text = "LOCK";
         ShopManager.Instance.SetRerollButtonText();
     }
+
+    public void Buy()
+    {
+        int totalCost = GetDiscountedPrice();
+
+        if (!PlayerManager.Instance.HasMoney(totalCost) || shopItemSO == null)
+        {
+            return;
+        }
+
+        shopItemSO.buyEvent.Invoke();
+
+        PlayerManager.Instance.SubstractMoney(totalCost);
+        ShopManager.Instance.LoadItems(true, shopItemSO.newId);
+    }
+
 }

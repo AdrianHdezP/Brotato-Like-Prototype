@@ -76,4 +76,20 @@ public class PlayerManager : MonoBehaviour
 
     #endregion
 
+
+    public void RecieveDamage(int damage)
+    {
+        float finalDamage = damage;
+
+        float randomEvasion = Random.Range(0f, 1f);
+
+        if (randomEvasion <= playerStats.evasion)
+            return;
+
+        finalDamage = finalDamage * (1 - playerStats.armor);
+
+        playerStats.Health -= (int)(finalDamage);
+        player.SetInvencibility();
+    }
+
 }
