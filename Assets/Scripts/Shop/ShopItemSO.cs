@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -9,6 +10,7 @@ public class ShopItemSO : ScriptableObject
 {
     [Header("ID")]
     public int ID;
+    public string newId;
 
     [Header("Item Setup")]
     public int itemCost;
@@ -19,6 +21,11 @@ public class ShopItemSO : ScriptableObject
     public UnityEvent buyEvent;
 
     [HideInInspector] public bool canBuy = true;
+
+    private void OnEnable()
+    {
+        newId = System.Guid.NewGuid().ToString();
+    }
 
     #region Weapons
 
@@ -53,21 +60,15 @@ public class ShopItemSO : ScriptableObject
 
     #region Items
 
-    public void MaxHealth()
-    {
-        PlayerManager.Instance.playerStats.maxHealth += 5;
-        PlayerManager.Instance.playerStats.Health += 5;
-    }
+    #region Basic Items
 
-    public void Speed()
-    {
-        PlayerManager.Instance.playerStats.speed += 1;
-    }
+    public void SmallLifePotion() => PlayerManager.Instance.playerStats.ModifyMaxHealth(1);
 
-    public void Damage()
-    {
-        PlayerManager.Instance.playerStats.damage += 5;
-    }
+    public void CombatSyringes() => PlayerManager.Instance.playerStats.ModifyMaxHealth(1);
+
+    public void BloodTransfer() => PlayerManager.Instance.playerStats.ModifyMaxHealth(2.5f);
+
+    #endregion
 
     #endregion
 

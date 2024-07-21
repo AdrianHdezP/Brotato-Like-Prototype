@@ -17,7 +17,7 @@ public class PlayerStats : MonoBehaviour
     #region Variables
 
     [Header("General Config")]
-    public int maxHealth; // Vida maxima - 1
+    public float maxHealth; // Vida maxima - 1
     public float lifeRecovery; // Porcentaje de recuperacion de vida en la runa - 0
     [Range(10, 75)] public float harvesting; // Distancia de recoleccion - 1
     [Range(0, 100)] public float luck; // Porcentaje de conseguir mas monedas al matar enemigos - 1
@@ -75,8 +75,8 @@ public class PlayerStats : MonoBehaviour
 
     #region Health
 
-    private int health = 0;
-    public int Health
+    private float health = 0;
+    public float Health
     {
         get
         {
@@ -141,7 +141,7 @@ public class PlayerStats : MonoBehaviour
 
     #region Modify Methods
 
-    public void ModifyMaxHealth(int maxHealth)
+    public void ModifyMaxHealth(float maxHealth)
     {
         this.maxHealth += maxHealth;
         AssignNewMaxHealthInSlider();
