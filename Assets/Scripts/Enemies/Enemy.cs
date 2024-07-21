@@ -165,8 +165,14 @@ public class Enemy : MonoBehaviour
         player.SetInvencibility();
     }
 
-    public void Damage(int damage)
+    public void Damage()
     {
+        int damage = playerStats.damage;
+        float randomPercentageOfCriticDamage = Random.Range(0f, 100f);
+
+        if (randomPercentageOfCriticDamage <= playerStats.percentageOfCriticalDamage)
+            damage = playerStats.criticalDamage;
+
         health -= damage;
 
         if (health <= 0)

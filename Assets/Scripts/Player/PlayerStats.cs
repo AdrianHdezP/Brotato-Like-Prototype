@@ -31,7 +31,7 @@ public class PlayerStats : MonoBehaviour
 
     [Header("Damage Config")]
     public int damage; // Cantidad de daño - 1
-    public float percentageOfCriticalDamage; // Porcentaje de efectuar daño critico - 0
+    [Range(0, 50)] public float percentageOfCriticalDamage; // Porcentaje de efectuar daño critico - 0
     public int criticalDamage; // Cantidad de daño critico  - 0
     public int magicDamage; // Cantidad de daño con magias  - 0
     public float magicRecovery; // Cooldown para magia (Debe de reducir todas) - 0

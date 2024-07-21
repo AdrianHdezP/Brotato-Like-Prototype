@@ -53,6 +53,7 @@ public class ShopItemTemplate : MonoBehaviour
         //animator.SetFloat("Speed", ShopManager.Instance.shopRefreshSpeed);
         //animator.SetTrigger("Enter");
     }
+
     private void Update()
     {
         if (discountMultiplier > 0)
@@ -76,8 +77,6 @@ public class ShopItemTemplate : MonoBehaviour
 
             // Debug.Log("DATA ASSIGNED TO ITEM " + name);
 
-            #region Setup
-
             discountMultiplier = 0;
             price = ShopItemSO.itemCost;
             itemCostTMP.text = price.ToString("0$");
@@ -97,21 +96,20 @@ public class ShopItemTemplate : MonoBehaviour
             itemDescriptionTMP.text = "NULL DESCRIPTION";
         }
 
-        #endregion
+    }
 
-    }
-    public void AssignPurchaseEvent()
-    {
-        purchaseButton.onClick.AddListener(() => ShopItemSO.Buy(GetDiscountedPrice()));
-    }
+    public void AssignPurchaseEvent() => purchaseButton.onClick.AddListener(() => ShopItemSO.Buy(GetDiscountedPrice()));
+
     private int GetDiscountedPrice() => (int)(price - price * discountMultiplier);
-
 
     public void ToggleLockState()
     {
-        if (isLocked) UnlockItem();
-        else LockItem();
+        if (isLocked) 
+            UnlockItem();
+        else 
+            LockItem();
     }
+
     public void LockItem()
     {
         isLocked = true;
@@ -119,6 +117,7 @@ public class ShopItemTemplate : MonoBehaviour
         lockImage.GetComponentInChildren<TextMeshProUGUI>().text = "UNLOCK";
         ShopManager.Instance.SetRerollButtonText();
     }
+
     public void UnlockItem()
     {
         isLocked = false;
@@ -126,5 +125,4 @@ public class ShopItemTemplate : MonoBehaviour
         lockImage.GetComponentInChildren<TextMeshProUGUI>().text = "LOCK";
         ShopManager.Instance.SetRerollButtonText();
     }
-
 }

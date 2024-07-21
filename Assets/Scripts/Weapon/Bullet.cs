@@ -29,11 +29,13 @@ public class Bullet : MonoBehaviour
         Enemy enemy = collision.GetComponent<Enemy>();
 
         if (enemy != null)
-            enemy.Damage(playerStats.damage);
+            enemy.Damage();
 
         if (collision != null)
             Destroy(gameObject);
     }
+
+    #region Scale Movement
 
     private void ScaleMovement()
     {
@@ -56,5 +58,7 @@ public class Bullet : MonoBehaviour
 
         scale = target;
     }
+
+    #endregion
 
 }

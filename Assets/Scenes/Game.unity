@@ -1672,7 +1672,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   INVENCIBILITY_CHEAT: 0
-  INFINITE_MONEY: 1
+  INFINITE_MONEY: 0
   maxHealth: 25
   lifeRecovery: 0
   harvesting: 10
@@ -1681,8 +1681,8 @@ MonoBehaviour:
   evasion: 5
   armor: 5
   damage: 5
-  percentageOfCriticalDamage: 0
-  criticalDamage: 0
+  percentageOfCriticalDamage: 10
+  criticalDamage: 10
   magicDamage: 0
   magicRecovery: 0
   canMove: 1
