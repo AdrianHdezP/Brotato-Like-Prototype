@@ -10,13 +10,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f232dfc67a522ac44a401d67d99921fd, type: 3}
-  m_Name: Small Life Potion
+  m_Name: Life Potion
   m_EditorClassIdentifier: 
-  Id: b633eb94-3264-487e-9b36-28e7a5389073
-  itemCost: 125
+  Id: 
+  itemCost: 500
   itemImage: {fileID: 0}
-  itemName: Small Life Potion
-  itemDescription: + 1 Max Health
+  itemName: Life Potion
+  itemDescription: '+ 2.5 Max health
+
+    + 5 Health'
   buyEvent:
     m_PersistentCalls:
       m_Calls:
@@ -28,7 +30,19 @@ MonoBehaviour:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
-          m_FloatArgument: 1
+          m_FloatArgument: 2.5
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 11400000}
+        m_TargetAssemblyTypeName: ShopItemSO, Assembly-CSharp
+        m_MethodName: ModifyHealth
+        m_Mode: 4
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 5
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2

@@ -134,7 +134,7 @@ public class ShopItemTemplate : MonoBehaviour
         shopItemSO.buyEvent.Invoke();
 
         PlayerManager.Instance.SubstractMoney(totalCost);
-        ShopManager.Instance.LoadItems(true, shopItemSO.newId);
+        ShopManager.Instance.LoadItems(true, shopItemSO.Id);
     }
 
 }

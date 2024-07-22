@@ -19,7 +19,7 @@ public class PlayerStats : MonoBehaviour
 
     [Header("General Config")]
     public float maxHealth; // Vida maxima - 1
-    public float lifeRecovery; // Porcentaje de recuperacion de vida en la runa - 0 
+    [Range(0, 1f)] public float lifeRecovery; // Porcentaje de recuperacion de vida en la runa - 0 
     [Range(10, 75)] public float harvesting; // Distancia de recoleccion - 1
     [Range(0, 1f)] public float luck; // Porcentaje de conseguir mas monedas al matar enemigos - 0.5
 
@@ -31,10 +31,10 @@ public class PlayerStats : MonoBehaviour
     [Range(0, 0.75f)] public float armor; // Porcentaje de reduccion de daño - 1
 
     [Header("Damage Config")]
-    public int damage; // Cantidad de daño - 1
+    public float damage; // Cantidad de daño - 1
     [Range(0, 1f)] public float percentageOfCriticalDamage; // Porcentaje de efectuar daño critico - 1
-    [Range(1.25f, 3f)] public int criticalDamageMult; // Cantidad de daño critico  - 1
-    public int magicDamage; // Cantidad de daño con magias  - 0
+    [Range(1.25f, 3f)] public float criticalDamageMult; // Cantidad de daño critico  - 1
+    public float magicDamage; // Cantidad de daño con magias  - 0
     public float magicRecovery; // Cooldown para magia (Debe de reducir todas) - 0
 
     #endregion
@@ -160,13 +160,13 @@ public class PlayerStats : MonoBehaviour
 
     public void ModifyArmor(float armor) => this.armor += armor;
 
-    public void ModifyDamage(int damage) => this.damage += damage;
+    public void ModifyDamage(float damage) => this.damage += damage;
 
     public void ModifyPercentageOfCriticalDamage(float percentageOfCriticalDamage) => this.percentageOfCriticalDamage += percentageOfCriticalDamage;
 
-    public void ModifyCriticalDamage(int criticalDamage) => this.criticalDamageMult += criticalDamage;
+    public void ModifyCriticalDamageMult(float criticalDamage) => this.criticalDamageMult += criticalDamage;
 
-    public void ModifyMagicDamage(int magicDamage) => this.magicDamage += magicDamage;
+    public void ModifyMagicDamage(float magicDamage) => this.magicDamage += magicDamage;
 
     public void ModifyMagicRecovery(float magicRecovery) => this.magicRecovery += magicRecovery;
 

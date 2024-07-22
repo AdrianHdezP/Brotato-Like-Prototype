@@ -10,25 +10,39 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f232dfc67a522ac44a401d67d99921fd, type: 3}
-  m_Name: Small Life Potion
+  m_Name: Military Boots
   m_EditorClassIdentifier: 
-  Id: b633eb94-3264-487e-9b36-28e7a5389073
-  itemCost: 125
+  Id: 
+  itemCost: 600
   itemImage: {fileID: 0}
-  itemName: Small Life Potion
-  itemDescription: + 1 Max Health
+  itemName: Military Boots
+  itemDescription: '+ 2.5 Speed
+
+    + 5% Armor'
   buyEvent:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 11400000}
         m_TargetAssemblyTypeName: ShopItemSO, Assembly-CSharp
-        m_MethodName: ModifyMaxHealth
+        m_MethodName: ModifySpeed
         m_Mode: 4
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
-          m_FloatArgument: 1
+          m_FloatArgument: 2.5
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 11400000}
+        m_TargetAssemblyTypeName: ShopItemSO, Assembly-CSharp
+        m_MethodName: ModifyArmor
+        m_Mode: 4
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0.05
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2

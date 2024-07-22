@@ -12,24 +12,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f232dfc67a522ac44a401d67d99921fd, type: 3}
   m_Name: Combat Syringes
   m_EditorClassIdentifier: 
-  ID: 2
+  Id: eee4166b-2f05-4060-86be-f20f9bf2757b
   itemCost: 125
   itemImage: {fileID: 0}
   itemName: Combat Syringes
-  itemDescription: + 1 Health
+  itemDescription: + 1 Max Health
   buyEvent:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 11400000}
         m_TargetAssemblyTypeName: ShopItemSO, Assembly-CSharp
-        m_MethodName: CombatSyringes
-        m_Mode: 1
+        m_MethodName: ModifyMaxHealth
+        m_Mode: 4
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
-          m_FloatArgument: 0
+          m_FloatArgument: 1
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  canBuy: 1

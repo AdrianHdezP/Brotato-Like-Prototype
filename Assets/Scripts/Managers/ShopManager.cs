@@ -198,7 +198,7 @@ public class ShopManager : MonoBehaviour
                 shopItems[i].animator.SetTrigger("Exit");
 
             ShopItemSO current = GetItemOfType();
-            loadItemsID.Add(current.newId);
+            loadItemsID.Add(current.Id);
 
             if (shopItems[i].ShopItemSO != null)
                 yield return new WaitForSeconds(1 / speed);
@@ -215,7 +215,7 @@ public class ShopManager : MonoBehaviour
         }
         else 
         {
-            loadItemsID.Add(shopItems[i].ShopItemSO.newId);        
+            loadItemsID.Add(shopItems[i].ShopItemSO.Id);        
         }
 
         CheckForDiscounts();
@@ -253,7 +253,7 @@ public class ShopManager : MonoBehaviour
 
     private IEnumerator SingleItemRefresh(int i, float speed, bool ignoreLockState, string indexID)
     {
-        if ((!shopItems[i].isLocked || ignoreLockState) && shopItems[i].ShopItemSO.newId == indexID)
+        if ((!shopItems[i].isLocked || ignoreLockState) && shopItems[i].ShopItemSO.Id == indexID)
         {
             shopItems[i].animator.SetFloat("Speed", speed);
 
@@ -261,7 +261,7 @@ public class ShopManager : MonoBehaviour
                 shopItems[i].animator.SetTrigger("Exit");
 
             ShopItemSO current = GetItemOfType();
-            loadItemsID.Add(current.newId);
+            loadItemsID.Add(current.Id);
 
             if (shopItems[i].ShopItemSO != null) 
                 yield return new WaitForSeconds(1 / speed);
@@ -278,7 +278,7 @@ public class ShopManager : MonoBehaviour
         }
         else
         {
-            loadItemsID.Add(shopItems[i].ShopItemSO.newId);
+            loadItemsID.Add(shopItems[i].ShopItemSO.Id);
         }
 
         CheckForDiscounts();

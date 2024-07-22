@@ -10,19 +10,19 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f232dfc67a522ac44a401d67d99921fd, type: 3}
-  m_Name: Small Life Potion
+  m_Name: Gel Insoles
   m_EditorClassIdentifier: 
-  Id: b633eb94-3264-487e-9b36-28e7a5389073
-  itemCost: 125
+  Id: a4200dfd-9cab-4ac4-a044-f708a5b5f2fe
+  itemCost: 150
   itemImage: {fileID: 0}
-  itemName: Small Life Potion
-  itemDescription: + 1 Max Health
+  itemName: Gel Insoles
+  itemDescription: + 1 Speed
   buyEvent:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 11400000}
         m_TargetAssemblyTypeName: ShopItemSO, Assembly-CSharp
-        m_MethodName: ModifyMaxHealth
+        m_MethodName: ModifySpeed
         m_Mode: 4
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

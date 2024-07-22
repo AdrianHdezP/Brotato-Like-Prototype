@@ -29,7 +29,7 @@ public class Enemy : MonoBehaviour
     [Header("Setup")]
     public float moveSpeed;
     public int dropMoney;
-    public int health;
+    public float health;
     public float speed;
     public int damage;
 
@@ -152,14 +152,11 @@ public class Enemy : MonoBehaviour
         }  
     }
 
-    private void PassiveAttack()
-    {
-        playerManager.RecieveDamage(damage);
-    }
+    private void PassiveAttack() => playerManager.RecieveDamage(damage);
 
     public void RecieveDamage()
     {
-        int damage = playerStats.damage;
+        float damage = playerStats.damage;
         float randomPercentageOfCriticDamage = Random.Range(0f, 1f);
 
         if (randomPercentageOfCriticDamage <= playerStats.percentageOfCriticalDamage)
