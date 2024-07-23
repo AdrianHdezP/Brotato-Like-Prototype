@@ -1,0 +1,91 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f232dfc67a522ac44a401d67d99921fd, type: 3}
+  m_Name: Explosion-Proof Suit
+  m_EditorClassIdentifier: 
+  Id: 
+  itemCost: 1050
+  itemImage: {fileID: 0}
+  itemName: Explosion-Proof Suit
+  itemDescription: '+ 10% Armor
+
+    + 5 Max Health
+
+    + 2.5 Health
+
+    + 5% Luck
+
+    -
+    2.5 Speed'
+  buyEvent:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 11400000}
+        m_TargetAssemblyTypeName: ShopItemSO, Assembly-CSharp
+        m_MethodName: ModifyArmor
+        m_Mode: 4
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0.1
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 11400000}
+        m_TargetAssemblyTypeName: ShopItemSO, Assembly-CSharp
+        m_MethodName: ModifyMaxHealth
+        m_Mode: 4
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 5
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 11400000}
+        m_TargetAssemblyTypeName: ShopItemSO, Assembly-CSharp
+        m_MethodName: ModifyHealth
+        m_Mode: 4
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 2.5
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 11400000}
+        m_TargetAssemblyTypeName: ShopItemSO, Assembly-CSharp
+        m_MethodName: ModifyLuck
+        m_Mode: 4
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0.05
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 11400000}
+        m_TargetAssemblyTypeName: ShopItemSO, Assembly-CSharp
+        m_MethodName: ModifySpeed
+        m_Mode: 4
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: -2.5
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
