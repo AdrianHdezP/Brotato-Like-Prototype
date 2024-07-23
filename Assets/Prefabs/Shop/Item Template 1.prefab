@@ -186,7 +186,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1850031701325621094}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
   m_Name: 
@@ -303,8 +303,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 204.2}
-  m_SizeDelta: {x: 150, y: 50}
+  m_AnchoredPosition: {x: 0.000005722, y: 204.2}
+  m_SizeDelta: {x: 487.8747, y: 50}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!222 &3527532065793754506
 CanvasRenderer:
@@ -439,7 +439,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 4.4365, y: -323.5}
+  m_AnchoredPosition: {x: 4.4366, y: -378.18}
   m_SizeDelta: {x: 141.1269, y: 36.5702}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &2645983399059705417
@@ -795,7 +795,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: -150}
-  m_SizeDelta: {x: 543.5259, y: 100}
+  m_SizeDelta: {x: 543.5259, y: 209.8916}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!222 &6969343533761435364
 CanvasRenderer:
@@ -825,7 +825,9 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Item description
+  m_text: 'Item description
+
+'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: f727e6384f9d635499b9521c31626df5, type: 2}
   m_sharedMaterial: {fileID: -2499404636180401938, guid: f727e6384f9d635499b9521c31626df5, type: 2}
@@ -856,7 +858,7 @@ MonoBehaviour:
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
-  m_fontSizeMin: 18
+  m_fontSizeMin: 10
   m_fontSizeMax: 37.54
   m_fontStyle: 0
   m_HorizontalAlignment: 2
@@ -864,7 +866,7 @@ MonoBehaviour:
   m_textAlignment: 65535
   m_characterSpacing: 0
   m_wordSpacing: 0
-  m_lineSpacing: 0
+  m_lineSpacing: -77.76
   m_lineSpacingMax: 0
   m_paragraphSpacing: 0
   m_charWidthMaxAdj: 0
@@ -1003,8 +1005,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 129.20001}
-  m_SizeDelta: {x: 310.6858, y: 50}
+  m_AnchoredPosition: {x: 1.5832, y: 129.20001}
+  m_SizeDelta: {x: 484.7083, y: 50}
   m_Pivot: {x: 0.5, y: 0.49999994}
 --- !u!222 &1123139217835647950
 CanvasRenderer:
@@ -1297,6 +1299,7 @@ MonoBehaviour:
   lockImage: {fileID: 3517807354180117024}
   price: 0
   discountMultiplier: 0
+  canBuy: 1
 --- !u!95 &8417004689527681302
 Animator:
   serializedVersion: 5

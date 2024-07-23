@@ -168,7 +168,6 @@ public class ShopManager : MonoBehaviour
             StartCoroutine(ShopRefreshSequence(ignoreLockState));        
         }
     }
-
     private IEnumerator ShopRefreshSequence(bool ignoreLockState)
     {
         readyToReRoll = false;
@@ -186,12 +185,14 @@ public class ShopManager : MonoBehaviour
 
         readyToReRoll = true;
     }
-
     private IEnumerator SingleItemRefresh(int i, float speed, bool ignoreLockState)
     {
 
         if (!shopItems[i].isLocked || ignoreLockState)
-        {        
+        {
+            shopItems[i].canBuy = false;
+
+
             shopItems[i].animator.SetFloat("Speed", speed);
 
             if (shopItems[i].ShopItemSO != null) 
@@ -212,6 +213,9 @@ public class ShopManager : MonoBehaviour
             if (ignoreLockState) 
                 shopItems[i].UnlockItem();
 
+
+
+            shopItems[i].canBuy = true;
         }
         else 
         {
@@ -232,7 +236,6 @@ public class ShopManager : MonoBehaviour
             StartCoroutine(ShopRefreshSequence(ignoreLockState, index));
         }
     }
-
     private IEnumerator ShopRefreshSequence(bool ignoreLockState, string indexID)
     {
         readyToReRoll = false;
@@ -250,12 +253,14 @@ public class ShopManager : MonoBehaviour
         
         readyToReRoll = true;
     }
-
     private IEnumerator SingleItemRefresh(int i, float speed, bool ignoreLockState, string indexID)
     {
         if ((!shopItems[i].isLocked || ignoreLockState) && shopItems[i].ShopItemSO.Id == indexID)
         {
-            shopItems[i].animator.SetFloat("Speed", speed);
+            shopItems[i].canBuy = false;
+
+
+           shopItems[i].animator.SetFloat("Speed", speed);
 
             if (shopItems[i].ShopItemSO != null) 
                 shopItems[i].animator.SetTrigger("Exit");
@@ -275,6 +280,8 @@ public class ShopManager : MonoBehaviour
             if (ignoreLockState) 
                 shopItems[i].UnlockItem();
 
+
+            shopItems[i].canBuy = true;
         }
         else
         {
@@ -317,7 +324,6 @@ public class ShopManager : MonoBehaviour
             return basicItemsSO[randomItem];
         }
     }
-
     private void CalculateItemOdd()
     {
         //float value = Mathf.Clamp01((float) WaveManager.Instance.round + minRound_Basic / WaveManager.Instance.maxRound);
@@ -385,7 +391,6 @@ public class ShopManager : MonoBehaviour
         shopRefreshCost = (int)(shopRefreshCost * shopCostMultiplier);
         refreshTMP.text = "REFRESH (" + shopRefreshCost + "$)";
     }
-
     public void ResetShopRefreshCost()
     {
         shopRefreshCost = baseShopRefreshCost;

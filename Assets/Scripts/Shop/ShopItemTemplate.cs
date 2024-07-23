@@ -37,6 +37,7 @@ public class ShopItemTemplate : MonoBehaviour
 
     [HideInInspector] public int price;
     [HideInInspector] public float discountMultiplier;
+    [HideInInspector] public bool canBuy = true;
 
     public bool isLocked { get; private set; }
 
@@ -126,11 +127,12 @@ public class ShopItemTemplate : MonoBehaviour
     {
         int totalCost = GetDiscountedPrice();
 
-        if (!PlayerManager.Instance.HasMoney(totalCost) || shopItemSO == null)
+        if (!PlayerManager.Instance.HasMoney(totalCost) || shopItemSO == null || !canBuy)
         {
             return;
         }
 
+        canBuy = false;
         shopItemSO.buyEvent.Invoke();
 
         PlayerManager.Instance.SubstractMoney(totalCost);
