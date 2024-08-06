@@ -65,7 +65,7 @@ public class Enemy : MonoBehaviour
         AddForces();
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    private void OnTriggerStay2D(Collider2D collision)
     {
         Player player = collision.GetComponent<Player>();
 
@@ -162,7 +162,11 @@ public class Enemy : MonoBehaviour
         if (randomPercentageOfCriticDamage <= playerStats.percentageOfCriticalDamage)
             damage *= playerStats.criticalDamageMult;
 
+
         health -= damage;
+
+        DamageDebugManager.Instance.InstatiateDamageVisual(transform.position, damage);
+
 
         if (health <= 0)
             Die();

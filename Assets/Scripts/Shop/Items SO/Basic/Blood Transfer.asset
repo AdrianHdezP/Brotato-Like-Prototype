@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f232dfc67a522ac44a401d67d99921fd, type: 3}
   m_Name: Blood Transfer
   m_EditorClassIdentifier: 
-  Id: 37c0fbdd-80d4-4e0d-ad50-cb1362d193cd
+  Id: 52ee91ba-0b39-4fbf-b25c-929cec56f6a0
   itemCost: 175
   itemImage: {fileID: 0}
   itemName: Blood Transfer

@@ -82,4 +82,12 @@ public class ShopItemSO : ScriptableObject
 
     #endregion
 
+    #region Effects
+    public void ActivateDebugBullets()
+    {
+        EffectManager.Instance.DebuggingEffect = true;
+    }
+
+    #endregion
+
 }

@@ -10,8 +10,11 @@ public class WeaponRifle : Weapon
 
         if (CanShoot())
         {
-            GameObject bullet = Instantiate(bulletPrefab, bulletSpawnPos.position, Quaternion.identity);
-            bullet.GetComponent<Rigidbody2D>().velocity = playerManager.player.lookDirection.normalized * bulletSpeed;
+            //GameObject bullet = Instantiate(bulletPrefab, bulletSpawnPos.position, Quaternion.identity);
+            //bullet.GetComponent<Rigidbody2D>().velocity = playerManager.player.lookDirection.normalized * bulletSpeed;
+            //
+
+            playerManager.player.GenerateBullet(bulletPrefab, bulletSpawnPos.position, bulletSpeed);
             StartCoroutine(MuzzleFlash());
         }
     }

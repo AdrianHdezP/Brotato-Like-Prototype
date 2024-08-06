@@ -204,7 +204,7 @@ public class ShopManager : MonoBehaviour
             if (shopItems[i].ShopItemSO != null)
                 yield return new WaitForSeconds(1 / speed);
 
-            Debug.LogWarning("SETTING ITEM");
+           // Debug.LogWarning("SETTING ITEM");
 
             shopItems[i].ShopItemSO = current;
 

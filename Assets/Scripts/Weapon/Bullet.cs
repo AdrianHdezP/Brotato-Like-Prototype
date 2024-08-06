@@ -6,9 +6,14 @@ public class Bullet : MonoBehaviour
 {
     private PlayerStats playerStats;
 
+    public int impacts = 1;
     private float defaultScale = 0.15f;
     private float scale;
     private float target= 0.225f;
+
+    public bool impacted {  get; private set; } 
+    public Vector3 lastImpactPos {  get; private set; } 
+    public string lastHitName {  get; private set; } 
 
     private void Start()
     {
@@ -26,14 +31,34 @@ public class Bullet : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        Enemy enemy = collision.GetComponent<Enemy>();
+        if(impacts > 0)
+        {
+            if (collision.TryGetComponent(out Enemy enemy))
+            {
+                enemy.RecieveDamage();
+            }
 
-        if (enemy != null)
-            enemy.RecieveDamage();
+            if (collision != null)
+            {
+                impacted = true;
+                lastImpactPos = collision.transform.position;
+                lastHitName = collision.gameObject.name;
 
-        if (collision != null)
-            Destroy(gameObject);
+                if (collision.gameObject.layer == 3) impacts = 0;
+                else impacts --;
+            }
+        }       
     }
+
+    private void LateUpdate()
+    {
+        if (impacted )
+        {
+            impacted = false;
+            if (impacts <= 0) Destroy(gameObject);
+        }
+    }
+
 
     #region Scale Movement
 
@@ -44,7 +69,6 @@ public class Bullet : MonoBehaviour
         else if (scale == target)
             StartCoroutine(LerpScale(target, defaultScale, 0.5f));
     }
-
     private IEnumerator LerpScale(float start, float target, float lerpDuration)
     {
         float timeElpased = 0;

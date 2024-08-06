@@ -4,12 +4,14 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using System;
+using Unity.VisualScripting;
 
 public class ShopItemTemplate : MonoBehaviour
 {
 
     [Header("ItemType")]
     [SerializeField] ShopItemSO shopItemSO;
+
     public ShopItemSO ShopItemSO
     {
         get 
@@ -134,7 +136,7 @@ public class ShopItemTemplate : MonoBehaviour
 
         canBuy = false;
         shopItemSO.buyEvent.Invoke();
-
+             
         PlayerManager.Instance.SubstractMoney(totalCost);
         ShopManager.Instance.LoadItems(true, shopItemSO.Id);
     }

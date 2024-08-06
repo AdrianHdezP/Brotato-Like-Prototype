@@ -87,9 +87,9 @@ public class PlayerManager : MonoBehaviour
             return;
 
         finalDamage = finalDamage * (1 - playerStats.armor);
-
         playerStats.Health -= (int)(finalDamage);
         player.SetInvencibility();
-    }
 
+        DamageDebugManager.Instance.InstatiateDamageVisual(player.transform.position, finalDamage);
+    }
 }

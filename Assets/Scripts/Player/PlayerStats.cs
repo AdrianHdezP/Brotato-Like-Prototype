@@ -33,7 +33,7 @@ public class PlayerStats : MonoBehaviour
     [Header("Damage Config")]
     public float damage; // Cantidad de daño - 1
     [Range(0, 1f)] public float percentageOfCriticalDamage; // Porcentaje de efectuar daño critico - 1
-    [Range(1.25f, 3f)] public float criticalDamageMult; // Cantidad de daño critico  - 1
+    [Range(1.25f, 3f)] public float criticalDamageMult = 1; // Cantidad de daño critico  - 1
     public float magicDamage; // Cantidad de daño con magias  - 0
     public float magicRecovery; // Cooldown para magia (Debe de reducir todas) - 0
 
@@ -63,11 +63,11 @@ public class PlayerStats : MonoBehaviour
             if (INFINITE_MONEY)
             {
                 money = 9999;
+                UpdateMoneyTMP();
                 return;
             }
 
             money = value;
-
             UpdateMoneyTMP();
         }
     }
@@ -102,6 +102,7 @@ public class PlayerStats : MonoBehaviour
     #endregion
 
     #endregion
+
 
     private void Start()
     {

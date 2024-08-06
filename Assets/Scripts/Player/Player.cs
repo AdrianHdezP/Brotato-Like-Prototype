@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -200,6 +201,13 @@ public class Player : MonoBehaviour
         }
 
         weapons[index].SetActive(true);
+    }
+
+    public void GenerateBullet(GameObject proyectilePrefab, Vector3 spawnPoint, float speed)
+    {
+        GameObject bullet = Instantiate(proyectilePrefab, spawnPoint, Quaternion.identity);
+        bullet.GetComponent<Rigidbody2D>().velocity = playerManager.player.lookDirection.normalized * speed;
+        EffectManager.Instance.ApplyEffectsToBullet(bullet);
     }
 
 }
