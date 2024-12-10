@@ -2699,7 +2699,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &703049443
 Transform:
   m_ObjectHideFlags: 0
@@ -2728,7 +2728,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   areaSize: {x: 125, y: 50}
-  rune: {fileID: 6962982671956064504, guid: c089b9959f121e14389ec7bea83da171, type: 3}
+  runePool:
+  - {fileID: 6962982671956064504, guid: c089b9959f121e14389ec7bea83da171, type: 3}
+  - {fileID: 6962982671956064504, guid: e766a960aeb5b144fb4a627a0313a102, type: 3}
+  - {fileID: 6962982671956064504, guid: c089b9959f121e14389ec7bea83da171, type: 3}
+  runeInstantiateTimer: 15
 --- !u!1 &706106194
 GameObject:
   m_ObjectHideFlags: 0

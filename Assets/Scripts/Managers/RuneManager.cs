@@ -20,9 +20,13 @@ public class RuneManager : MonoBehaviour
     }
 
     public Vector2 areaSize;
-    public GameObject rune;
+    public GameObject[] runePool; 
+    [SerializeField] private float runeInstantiateTimer;
 
-    private float timer = 0;
+    private float timerForNextRune = 0;
+    private float runeTimeoutTimer = 0;
+    private float runeMaxTimer = 0;
+    private float runeMinTimer = 0;
     private GameObject actualRune;
 
     private void Awake()
@@ -32,23 +36,62 @@ public class RuneManager : MonoBehaviour
 
     private void Start()
     {
-        timer = 1;
+        timerForNextRune = 1;
     }
 
     private void Update()
     {
-        timer -= Time.deltaTime;    
+        timerForNextRune -= Time.deltaTime;
+        runeTimeoutTimer -= Time.deltaTime;
 
-        if (timer <= 0)
+        if (WaveManager.Instance.isInRound)
+        {
+            RuneTimeout();
+            NextRune();
+        }
+        else
+        {
+            ResetRune();
+        }
+
+        Debug.Log(timerForNextRune);
+    }
+
+    #region Rune
+
+    private void NextRune()
+    {
+        if (timerForNextRune <= 0 && runeTimeoutTimer <= 0)
             SetupRune();
     }
 
     public void SetupRune()
     {
-        Destroy(actualRune);
-        actualRune = Instantiate(rune, RandomPointInArea(), Quaternion.identity);
-        timer = 2.5f;
+        timerForNextRune = Random.Range(0, runeInstantiateTimer);
+
+        InstantiateRune();
+
+        Rune runeScript = actualRune.GetComponent<Rune>();
+        runeMaxTimer = runeScript.runeMaxTimer;
+        runeMinTimer = runeScript.runeMinTimer;
+        runeTimeoutTimer = Random.Range(runeMinTimer, runeMaxTimer);
     }
+
+    private void InstantiateRune() => actualRune = Instantiate(runePool[Random.Range(0, runePool.Length)], RandomPointInArea(), Quaternion.identity);
+
+    private void RuneTimeout()
+    {
+        if (runeTimeoutTimer <= 0)
+            Destroy(actualRune);
+    }
+
+    private void ResetRune()
+    {
+        runeTimeoutTimer = 0;
+        Destroy(actualRune);
+    }
+
+    #endregion
 
     private Vector3 RandomPointInArea()
     {
